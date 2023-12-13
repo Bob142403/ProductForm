@@ -1,6 +1,6 @@
 import { Button, DatePicker, Form, Input, Select, Typography } from "antd";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import styles from "./sign-up.style.module.css";
@@ -12,7 +12,7 @@ dayjs.extend(customParseFormat);
 const { Title } = Typography;
 const { Option } = Select;
 
-export const SignUp = () => {
+export const SignUp = ({ qwer }: { qwer: () => void }) => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -39,7 +39,7 @@ export const SignUp = () => {
     });
   }
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div className={styles.wrapper}>
@@ -223,7 +223,7 @@ export const SignUp = () => {
               Sign Up{" "}
             </Button>{" "}
             Or{" "}
-            <a href="" onClick={() => navigate("/")}>
+            <a href="" onClick={() => qwer()}>
               Already have an account
             </a>
           </Form.Item>
