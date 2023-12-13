@@ -12,7 +12,7 @@ import { AuthCheck } from "./components/auth-check/auth-check.component.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AuthCheck children={<BreakfastGroup />} />,
+    element: <SignIn />,
   },
   {
     path: "/lunch",

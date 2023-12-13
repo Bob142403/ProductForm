@@ -223,7 +223,7 @@ export const SignUp = () => {
               Sign Up{" "}
             </Button>{" "}
             Or{" "}
-            <a href="" onClick={() => navigate("/sign-in")}>
+            <a href="" onClick={() => navigate("/")}>
               Already have an account
             </a>
           </Form.Item>
