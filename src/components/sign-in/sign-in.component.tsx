@@ -3,15 +3,23 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./sign-in.style.module.css";
+import { authApi } from "../../api/auth";
 
-const { Text, Link, Title } = Typography;
+const { Title } = Typography;
+
 export const SignIn = () => {
-  const [userName, setUserName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const onFinish = (values: any) => {};
+  const onFinish = async (values: any) => {
+    try {
+      const token = await authApi.login({ username, password });
+      localStorage.setItem("token", token.token);
+      navigate("/");
+    } catch (err) {}
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -28,8 +36,8 @@ export const SignIn = () => {
             rules={[{ required: true, message: "Please input your Username!" }]}
           >
             <Input
-              value={userName}
-              onChange={(event) => setUserName(event.target.value)}
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Username"
             />
@@ -58,7 +66,7 @@ export const SignIn = () => {
               Sign in{" "}
             </Button>{" "}
             Or{" "}
-            <a href="" onClick={() => navigate("sign-up")}>
+            <a href="" onClick={() => navigate("/sign-up")}>
               register now!
             </a>
           </Form.Item>

@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import styles from "./sign-up.style.module.css";
 import data from "../../../BoboshkaNutrishion.json";
+import { authApi } from "../../api/auth";
 
 dayjs.extend(customParseFormat);
 
@@ -12,7 +13,7 @@ const { Title } = Typography;
 const { Option } = Select;
 
 export const SignUp = () => {
-  const [userName, setUserName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [district, setDistrict] = useState<string>("");
@@ -23,7 +24,20 @@ export const SignUp = () => {
   const [gender, setGender] = useState<string>("");
   const [fio, setFio] = useState<string>("");
 
-  async function onSubmit() {}
+  async function onSubmit() {
+    await authApi.signUp({
+      username,
+      email,
+      password,
+      district,
+      village,
+      telephone,
+      birthday,
+      gender,
+      fio,
+      jamoat,
+    });
+  }
 
   const navigate = useNavigate();
 
@@ -37,10 +51,19 @@ export const SignUp = () => {
           layout="horizontal"
           style={{ maxWidth: 900, width: "100%" }}
         >
-          <Form.Item label="User Name">
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your User name!",
+              },
+            ]}
+            label="User Name"
+          >
             <Input
-              value={userName}
-              onChange={(event) => setUserName(event.target.value)}
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
             />
           </Form.Item>
           <Form.Item
@@ -53,6 +76,7 @@ export const SignUp = () => {
               },
               {
                 message: "Please input your E-mail!",
+                required: true,
               },
             ]}
           >
@@ -61,14 +85,32 @@ export const SignUp = () => {
               onChange={(event) => setEmail(event.target.value)}
             />
           </Form.Item>
-          <Form.Item label="Password">
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Password",
+              },
+            ]}
+            label="Password"
+          >
             <Input
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
           </Form.Item>
-          <Form.Item label="F.I.O">
+          <Form.Item
+            name="fio"
+            label="F.I.O"
+            rules={[
+              {
+                required: true,
+                message: "Please input your first and last name!",
+              },
+            ]}
+          >
             <Input
               type="text"
               value={fio}
@@ -86,6 +128,7 @@ export const SignUp = () => {
               onChange={(event) => {
                 setDistrict(event);
                 setJamoat("");
+                setVillage("");
               }}
             >
               {data["district"].map((elem) => (
@@ -130,14 +173,29 @@ export const SignUp = () => {
                 ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Birthday">
+          <Form.Item
+            label="Birthday"
+            name="birthDay"
+            rules={[
+              { required: true, message: "Please select your birthday!" },
+            ]}
+          >
             <DatePicker
               onChange={(event) => {
                 console.log(event);
               }}
             />
           </Form.Item>
-          <Form.Item label="Telephone">
+          <Form.Item
+            label="Telephone"
+            name="telephone"
+            rules={[
+              {
+                required: true,
+                message: "Please input your telephone number!",
+              },
+            ]}
+          >
             <Input
               type="text"
               value={telephone}
@@ -165,7 +223,7 @@ export const SignUp = () => {
               Sign Up{" "}
             </Button>{" "}
             Or{" "}
-            <a href="" onClick={() => navigate("/")}>
+            <a href="" onClick={() => navigate("/sign-in")}>
               Already have an account
             </a>
           </Form.Item>
