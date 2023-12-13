@@ -8,14 +8,18 @@ export const AuthCheck = ({ children }: { children: ReactNode }) => {
   const token = localStorage.getItem("token");
   useEffect(() => {
     (async () => {
-      const qwe = await fetch(url + "auth", {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: token || "",
-        },
-      });
-      if (qwe.status === 400) {
+      try {
+        const qwe = await fetch(url + "auth", {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: token || "",
+          },
+        });
+        if (qwe.status === 400) {
+          navigate("/sign-in");
+        }
+      } catch (err) {
         navigate("/sign-in");
       }
     })();
