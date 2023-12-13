@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Typography } from "antd";
+import { Button, Form, Input, Typography } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ export const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async () => {
     try {
       const token = await authApi.login({ username, password });
       localStorage.setItem("token", token.token);

@@ -182,7 +182,7 @@ export const SignUp = () => {
           >
             <DatePicker
               onChange={(event) => {
-                console.log(event);
+                if (event) setBirthday(event?.toISOString());
               }}
             />
           </Form.Item>
