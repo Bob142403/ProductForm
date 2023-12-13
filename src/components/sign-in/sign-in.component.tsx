@@ -1,23 +1,23 @@
 import { Button, Form, Input, Typography } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./sign-in.style.module.css";
 import { authApi } from "../../api/auth";
 
 const { Title } = Typography;
 
-export const SignIn = ({ qwer }: { qwer: () => void }) => {
+export const SignIn = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onFinish = async () => {
     try {
       const token = await authApi.login({ username, password });
       localStorage.setItem("token", token.token);
-      // navigate("/");
+      navigate("/");
     } catch (err) {}
   };
 
@@ -66,14 +66,7 @@ export const SignIn = ({ qwer }: { qwer: () => void }) => {
               Sign in{" "}
             </Button>{" "}
             Or{" "}
-            <a
-              href=""
-              onClick={() => {
-                // navigate("/sign-up")
-
-                qwer();
-              }}
-            >
+            <a href="" onClick={() => navigate("/sign-up")}>
               register now!
             </a>
           </Form.Item>
