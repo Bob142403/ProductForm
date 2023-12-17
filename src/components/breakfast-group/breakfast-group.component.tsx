@@ -1,10 +1,11 @@
 import { Button, Checkbox, Typography } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./breakfast-group.style.module.css";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
 import { breakfastcategory } from "../../utils/breakfastcategory";
+import { CategoryContext } from "../../provider/CategoryProvider";
 
 interface Type {
   name: string;
@@ -48,6 +49,8 @@ const Step = ({
 
 const { Title } = Typography;
 export const BreakfastGroup = () => {
+  const { setCategory } = useContext(CategoryContext);
+
   const question = data["survey"].find((elem) => elem.name === "group_xg79k42");
   const navigate = useNavigate();
 
@@ -89,7 +92,7 @@ export const BreakfastGroup = () => {
         )}
         {step === "food" && (
           <Step
-            title="Food"
+            title="Breakfast Food"
             list={foods}
             selected={selectedFood}
             setSelected={setSelectedFood}
@@ -97,7 +100,7 @@ export const BreakfastGroup = () => {
         )}
         {step === "product" && (
           <Step
-            title="Product"
+            title="Breakfast Product"
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}
@@ -126,10 +129,7 @@ export const BreakfastGroup = () => {
               if (step === "group") setStep("food");
               if (step === "food") setStep("product");
               if (step === "product") {
-                console.log(
-                  "breakfastcategory: ",
-                  breakfastcategory(seletedProduct)
-                );
+                setCategory(breakfastcategory(seletedProduct));
                 navigate("/lunch");
               }
             }}

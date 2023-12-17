@@ -1,10 +1,11 @@
 import { Button, Checkbox, Typography } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./lunch-group.style.module.css";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
 import { lunchCategory } from "../../utils/lunchcategory";
+import { CategoryContext } from "../../provider/CategoryProvider";
 
 interface Type {
   name: string;
@@ -48,6 +49,7 @@ const Step = ({
 
 const { Title } = Typography;
 export const LunchGroup = () => {
+  const { setCategory } = useContext(CategoryContext);
   const question = data["survey"].find((elem) => elem.name === "group_ou0gs78");
   const navigate = useNavigate();
 
@@ -89,7 +91,7 @@ export const LunchGroup = () => {
         )}
         {step === "food" && (
           <Step
-            title="Food"
+            title="Lunch Food"
             list={foods}
             selected={selectedFood}
             setSelected={setSelectedFood}
@@ -97,7 +99,7 @@ export const LunchGroup = () => {
         )}
         {step === "product" && (
           <Step
-            title="Product"
+            title="Lunch Product"
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}
@@ -126,7 +128,7 @@ export const LunchGroup = () => {
               if (step === "group") setStep("food");
               if (step === "food") setStep("product");
               if (step === "product") {
-                console.log("lunchCategory: ", lunchCategory(seletedProduct));
+                setCategory(lunchCategory(seletedProduct));
                 navigate("/dinner");
               }
             }}

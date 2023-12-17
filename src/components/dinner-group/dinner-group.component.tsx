@@ -1,10 +1,15 @@
 import { Button, Checkbox, Typography } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./dinner-group.style.module.css";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
 import { dinnercategory } from "../../utils/dinnercategory";
+import {
+  CategoryContext,
+  concatCategory,
+} from "../../provider/CategoryProvider";
+import { categoryApi } from "../../api/category";
 
 interface Type {
   name: string;
@@ -48,6 +53,8 @@ const Step = ({
 
 const { Title } = Typography;
 export const DinnerGroup = () => {
+  const { setCategory, category } = useContext(CategoryContext);
+
   const question = data["survey"].find((elem) => elem.name === "group_ub6cg02");
   const navigate = useNavigate();
 
@@ -89,7 +96,7 @@ export const DinnerGroup = () => {
         )}
         {step === "food" && (
           <Step
-            title="Food"
+            title="Dinner Food"
             list={foods}
             selected={selectedFood}
             setSelected={setSelectedFood}
@@ -97,7 +104,7 @@ export const DinnerGroup = () => {
         )}
         {step === "product" && (
           <Step
-            title="Product"
+            title="Dinner Product"
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}
@@ -122,11 +129,17 @@ export const DinnerGroup = () => {
           </div>
           <Button
             type="primary"
-            onClick={() => {
+            onClick={async () => {
+              const user = JSON.parse(localStorage.getItem("user") || "");
               if (step === "group") setStep("food");
               if (step === "food") setStep("product");
               if (step === "product") {
-                console.log("dinnercategory: ", dinnercategory(seletedProduct));
+                setCategory(dinnercategory(seletedProduct));
+                await categoryApi.insert({
+                  ...concatCategory(category, dinnercategory(seletedProduct)),
+                  userId: user.id,
+                  date: Date.now(),
+                });
                 navigate("/finish");
               }
             }}
