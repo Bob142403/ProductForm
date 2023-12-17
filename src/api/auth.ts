@@ -1,6 +1,6 @@
 import { request } from "./fetch/request";
 
-const baseURL = "http://localhost:5001";
+const baseURL = "https://dait-f.onrender.com";
 
 export const authApi = {
   auth: async () => await request(baseURL + "/auth"),

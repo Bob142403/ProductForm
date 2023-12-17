@@ -1,6 +1,6 @@
 import { request } from "./fetch/request";
 
-const baseURL = "http://localhost:5001/category";
+const baseURL = "https://dait-f.onrender.com/category";
 
 export const categoryApi = {
   insert: async (category: any) =>
