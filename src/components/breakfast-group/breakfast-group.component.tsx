@@ -1,4 +1,4 @@
-import { Button, Checkbox, Typography } from "antd";
+import { Button, Checkbox, Divider, Typography } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./breakfast-group.style.module.css";
 import { useContext, useMemo, useState } from "react";
@@ -6,26 +6,34 @@ import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
 import { breakfastcategory } from "../../utils/breakfastcategory";
 import { CategoryContext } from "../../provider/CategoryProvider";
+import { NavBarContext } from "../../provider/NavBarProvider";
+import { language } from "../../lang/lang";
 
-interface Type {
+export interface Type {
   name: string;
   "label::English": string;
+  "label::Tajik": string;
+  "label::Uzbek": string;
 }
 
-const Step = ({
+export const Step = ({
   title,
   selected,
   setSelected,
   list,
+  lang,
 }: {
   title: string;
   selected: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
   list: Type[];
+  lang: string;
 }) => {
   return (
     <div className={styles.firstQuestion}>
-      <Title level={5}>{title}</Title>
+      <Title level={5} style={{ marginTop: "0" }}>
+        {title}
+      </Title>
       <div className={styles.checkboxList}>
         {list.map((select, index) => (
           <Checkbox
@@ -39,7 +47,17 @@ const Step = ({
                 setSelected(selected.filter((elem) => elem !== select["name"]));
             }}
           >
-            {select["label::English"]}
+            {
+              select[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
           </Checkbox>
         ))}
       </div>
@@ -50,8 +68,18 @@ const Step = ({
 const { Title } = Typography;
 export const BreakfastGroup = () => {
   const { setCategory } = useContext(CategoryContext);
+  const { lang } = useContext(NavBarContext);
 
   const question = data["survey"].find((elem) => elem.name === "group_xg79k42");
+  const questionforGroup = data["survey"].find(
+    (elem) => elem.type === "select_multiple BreakfastGroup"
+  ) as Type;
+  const questionforFood = data["survey"].find(
+    (elem) => elem.type === "select_multiple Food"
+  ) as Type;
+  const questionforProduct = data["survey"].find(
+    (elem) => elem.type === "select_multiple Product"
+  ) as Type;
   const navigate = useNavigate();
 
   const [step, setStep] = useState<"group" | "food" | "product">("group");
@@ -82,9 +110,27 @@ export const BreakfastGroup = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        <Divider orientation="left">
+          {question[
+            `label::${
+              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
+            }`
+          ] || ""}
+        </Divider>
         {step === "group" && (
           <Step
-            title={question["label::English"] || ""}
+            title={
+              questionforGroup[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
+            lang={lang}
             list={breakfastGroup}
             selected={selectedGroup}
             setSelected={setSelectedGroup}
@@ -92,7 +138,18 @@ export const BreakfastGroup = () => {
         )}
         {step === "food" && (
           <Step
-            title="Breakfast Food"
+            title={
+              questionforFood[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
+            lang={lang}
             list={foods}
             selected={selectedFood}
             setSelected={setSelectedFood}
@@ -100,7 +157,18 @@ export const BreakfastGroup = () => {
         )}
         {step === "product" && (
           <Step
-            title="Breakfast Product"
+            lang={lang}
+            title={
+              questionforProduct[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}
@@ -119,7 +187,7 @@ export const BreakfastGroup = () => {
                   }
                 }}
               >
-                Previos
+                {language["previos"][lang]}
               </Button>
             )}
           </div>
@@ -134,7 +202,7 @@ export const BreakfastGroup = () => {
               }
             }}
           >
-            Next
+            {language["next"][lang]}
           </Button>
         </div>
       </div>

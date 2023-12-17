@@ -15,6 +15,8 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { NavBarContext } from "../../provider/NavBarProvider";
+import { language } from "../../lang/lang";
 
 ChartJS.register(
   CategoryScale,
@@ -28,12 +30,19 @@ ChartJS.register(
 
 export const FinishPage = ({}: {}) => {
   const { category } = useContext(CategoryContext);
+  const { lang } = useContext(NavBarContext);
   const [allCategory, setAllCategory] = useState([]);
 
   let index = 1;
   const resultCategory = [];
   for (let value of Object.values(category)) {
-    resultCategory.push(`Result of category ${index}: ${value}`);
+    resultCategory.push(
+      lang === "ENG"
+        ? `Result group ${index} is: ${value}`
+        : lang === "TJK"
+        ? `Натиҷаи ${index} гуруҳ :  ${value}`
+        : `${index} гуруҳ натиҷаси:  ${value}`
+    );
     index++;
   }
 
@@ -60,19 +69,20 @@ export const FinishPage = ({}: {}) => {
           label: "Dataset 1",
           data: allCategory.map(
             (elem: any) =>
-              elem.group1 +
-              elem.group2 +
-              elem.group3 +
-              elem.group4 +
-              elem.group5 +
-              elem.group6 +
-              elem.group7 +
-              elem.group8 +
-              elem.group9 +
-              elem.group10 +
-              elem.group11 +
-              elem.group12 +
-              elem.group13
+              +!!elem.group1 +
+              +!!elem.group2 +
+              +!!elem.group3 +
+              +!!elem.group4 +
+              +!!elem.group5 +
+              +!!elem.group6 +
+              +!!elem.group7 +
+              +!!elem.group8 +
+              +!!elem.group9 +
+              +!!elem.group10
+            //  +
+            // +!!elem.group11 +
+            // +!!elem.group12 +
+            // +!!elem.group13
           ),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -92,12 +102,24 @@ export const FinishPage = ({}: {}) => {
         callbacks: {
           label: function (context: any) {
             const { label } = context;
-            return JSON.stringify(
-              allCategory.find(
-                (elem: any) =>
-                  new Date(+elem.date).toLocaleDateString() === label
-              )
+            const hoveredDay: any = allCategory.find(
+              (elem: any) => new Date(+elem.date).toLocaleDateString() === label
             );
+            return [
+              `Group 1:  ${hoveredDay.group1}`,
+              `Group 2:  ${hoveredDay.group2}`,
+              `Group 3:  ${hoveredDay.group3}`,
+              `Group 4:  ${hoveredDay.group4}`,
+              `Group 5:  ${hoveredDay.group5}`,
+              `Group 6:  ${hoveredDay.group6}`,
+              `Group 7:  ${hoveredDay.group7}`,
+              `Group 8:  ${hoveredDay.group8}`,
+              `Group 9:  ${hoveredDay.group9}`,
+              `Group 10:  ${hoveredDay.group10}`,
+              // `Group 11:  ${hoveredDay.group11}`,
+              // `Group 12:  ${hoveredDay.group12}`,
+              // `Group 13:  ${hoveredDay.group13}`,
+            ];
           },
         },
       },
@@ -114,17 +136,28 @@ export const FinishPage = ({}: {}) => {
   return (
     <>
       <List
-        header={<div>Category Results</div>}
+        // header={<div>{language["categoryResult"][lang]}</div>}
         bordered
         dataSource={resultCategory}
         renderItem={(item) => <List.Item> {item}</List.Item>}
       />
 
-      <Divider orientation="left">How to do all category</Divider>
+      <Divider orientation="left">
+        {language["howTodoAllCategory"][lang]}
+      </Divider>
 
-      <Typography.Text>{`Telephone ` + helpMessage(category)}</Typography.Text>
+      <List
+        bordered
+        dataSource={helpMessage(category, lang).filter((elem) => elem)}
+        renderItem={(item) => <List.Item> {item}</List.Item>}
+      />
 
       <Line options={options} data={data} />
+
+      <Divider orientation="left">{language["feedback"][lang]}</Divider>
     </>
   );
 };
+/**
+ * Прогресс дар истеъмоли гуногинии гизо
+ */

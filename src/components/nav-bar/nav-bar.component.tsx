@@ -21,6 +21,7 @@ import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import Logo from "../../assets/logo";
 import { useNavigate } from "react-router-dom";
 import { NavBarContext } from "../../provider/NavBarProvider";
+import { language } from "../../lang/lang";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
@@ -87,12 +88,16 @@ export default function NavBar() {
       key: "TJK",
       label: <>Tajik</>,
     },
+    {
+      key: "UZB",
+      label: <>Uzbek</>,
+    },
   ];
 
   const menuItems: MenuProps["items"] = [
     {
       disabled: !localStorage.getItem("user"),
-      label: "Check Rating",
+      label: language["checkRating"][lang],
       key: "rating",
     },
   ];

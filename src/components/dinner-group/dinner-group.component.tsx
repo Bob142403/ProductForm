@@ -1,8 +1,7 @@
-import { Button, Checkbox, Typography } from "antd";
+import { Button, Divider, Typography } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./dinner-group.style.module.css";
 import { useContext, useMemo, useState } from "react";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useNavigate } from "react-router-dom";
 import { dinnercategory } from "../../utils/dinnercategory";
 import {
@@ -10,52 +9,24 @@ import {
   concatCategory,
 } from "../../provider/CategoryProvider";
 import { categoryApi } from "../../api/category";
+import { Step, Type } from "../breakfast-group/breakfast-group.component";
+import { NavBarContext } from "../../provider/NavBarProvider";
+import { language } from "../../lang/lang";
 
-interface Type {
-  name: string;
-  "label::English": string;
-}
-
-const Step = ({
-  title,
-  selected,
-  setSelected,
-  list,
-}: {
-  title: string;
-  selected: string[];
-  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
-  list: Type[];
-}) => {
-  return (
-    <div className={styles.firstQuestion}>
-      <Title level={5}>{title}</Title>
-      <div className={styles.checkboxList}>
-        {list.map((select, index) => (
-          <Checkbox
-            key={index}
-            checked={selected.includes(select["name"])}
-            onChange={(e: CheckboxChangeEvent) => {
-              console.log(e.target.checked);
-              if (e.target.checked)
-                setSelected((prev) => [...prev, select["name"]]);
-              else
-                setSelected(selected.filter((elem) => elem !== select["name"]));
-            }}
-          >
-            {select["label::English"]}
-          </Checkbox>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const { Title } = Typography;
 export const DinnerGroup = () => {
   const { setCategory, category } = useContext(CategoryContext);
+  const { lang } = useContext(NavBarContext);
 
   const question = data["survey"].find((elem) => elem.name === "group_ub6cg02");
+  const questionforGroup = data["survey"].find(
+    (elem) => elem.type === "select_multiple DinnerGroup"
+  ) as Type;
+  const questionforFood = data["survey"].find(
+    (elem) => elem.type === "select_multiple DinnerFood"
+  ) as Type;
+  const questionforProduct = data["survey"].find(
+    (elem) => elem.type === "select_multiple DinnerProduct"
+  ) as Type;
   const navigate = useNavigate();
 
   const [step, setStep] = useState<"group" | "food" | "product">("group");
@@ -86,9 +57,27 @@ export const DinnerGroup = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        <Divider orientation="left">
+          {question[
+            `label::${
+              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
+            }`
+          ] || ""}
+        </Divider>
         {step === "group" && (
           <Step
-            title={question["label::English"] || ""}
+            lang={lang}
+            title={
+              questionforGroup[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
             list={group}
             selected={selectedGroup}
             setSelected={setSelectedGroup}
@@ -96,7 +85,18 @@ export const DinnerGroup = () => {
         )}
         {step === "food" && (
           <Step
-            title="Dinner Food"
+            lang={lang}
+            title={
+              questionforFood[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
             list={foods}
             selected={selectedFood}
             setSelected={setSelectedFood}
@@ -104,7 +104,18 @@ export const DinnerGroup = () => {
         )}
         {step === "product" && (
           <Step
-            title="Dinner Product"
+            lang={lang}
+            title={
+              questionforProduct[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ]
+            }
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}
@@ -123,7 +134,7 @@ export const DinnerGroup = () => {
                   }
                 }}
               >
-                Previos
+                {language["previos"][lang]}
               </Button>
             )}
           </div>
@@ -144,7 +155,7 @@ export const DinnerGroup = () => {
               }
             }}
           >
-            Next
+            {language["next"][lang]}
           </Button>
         </div>
       </div>

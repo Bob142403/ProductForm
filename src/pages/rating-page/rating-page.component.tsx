@@ -48,19 +48,19 @@ export const RatingPage = () => {
           label: "Dataset 1",
           data: allCategory.map(
             (elem: any) =>
-              elem.group1 +
-              elem.group2 +
-              elem.group3 +
-              elem.group4 +
-              elem.group5 +
-              elem.group6 +
-              elem.group7 +
-              elem.group8 +
-              elem.group9 +
-              elem.group10 +
-              elem.group11 +
-              elem.group12 +
-              elem.group13
+              +!!elem.group1 +
+              +!!elem.group2 +
+              +!!elem.group3 +
+              +!!elem.group4 +
+              +!!elem.group5 +
+              +!!elem.group6 +
+              +!!elem.group7 +
+              +!!elem.group8 +
+              +!!elem.group9 +
+              +!!elem.group10 +
+              +!!elem.group11 +
+              +!!elem.group12 +
+              +!!elem.group13
           ),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -77,15 +77,28 @@ export const RatingPage = () => {
         position: "top" as const,
       },
       tooltip: {
+        displayColors: false,
         callbacks: {
           label: function (context: any) {
             const { label } = context;
-            return JSON.stringify(
-              allCategory.find(
-                (elem: any) =>
-                  new Date(+elem.date).toLocaleDateString() === label
-              )
+            const hoveredDay: any = allCategory.find(
+              (elem: any) => new Date(+elem.date).toLocaleDateString() === label
             );
+            return [
+              `Group 1:  ${hoveredDay.group1}`,
+              `Group 2:  ${hoveredDay.group2}`,
+              `Group 3:  ${hoveredDay.group3}`,
+              `Group 4:  ${hoveredDay.group4}`,
+              `Group 5:  ${hoveredDay.group5}`,
+              `Group 6:  ${hoveredDay.group6}`,
+              `Group 7:  ${hoveredDay.group7}`,
+              `Group 8:  ${hoveredDay.group8}`,
+              `Group 9:  ${hoveredDay.group9}`,
+              `Group 10:  ${hoveredDay.group10}`,
+              // `Group 11:  ${hoveredDay.group11}`,
+              // `Group 12:  ${hoveredDay.group12}`,
+              // `Group 13:  ${hoveredDay.group13}`,
+            ];
           },
         },
       },
@@ -99,7 +112,7 @@ export const RatingPage = () => {
     },
   };
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center", margin: "10px" }}>
       <Line options={options} data={data} />
     </div>
   );

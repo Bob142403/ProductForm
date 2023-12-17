@@ -1,16 +1,20 @@
 import { Button, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import styles from "./home-intro.style.module.css";
+import { language } from "../../lang/lang";
+import { useContext } from "react";
+import { NavBarContext } from "../../provider/NavBarProvider";
 
 const { Title } = Typography;
 
 export const HomeIntro = ({}: {}) => {
   const navigate = useNavigate();
+  const { lang } = useContext(NavBarContext);
   return (
     <div className={styles.container}>
       <div className={styles.backgroudImage}></div>
 
-      <Title level={1}>You can only vote once a day, Please be careful!</Title>
+      <Title level={3} >{language["homeIntroAlert"][lang]}</Title>
       <Button
         onClick={() => navigate("/breakfast")}
         size="large"
@@ -18,7 +22,7 @@ export const HomeIntro = ({}: {}) => {
         disabled={!localStorage.getItem("user")}
         // style={{ backgroundColor: "transparent" }}
       >
-        Start Nutrition Form List
+        {language["startBtn"][lang]}
       </Button>
     </div>
   );
