@@ -1,4 +1,4 @@
-import { Divider, List, Typography } from "antd";
+import { Divider, List } from "antd";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { CategoryContext } from "../../provider/CategoryProvider";
 import { helpMessage } from "../../utils/helpmessage";

@@ -1,4 +1,4 @@
-import { Button, Divider, Typography } from "antd";
+import { Button, Divider } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./dinner-group.style.module.css";
 import { useContext, useMemo, useState } from "react";
