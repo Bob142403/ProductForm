@@ -1,5 +1,14 @@
-import { Button, DatePicker, Form, Input, Select, Typography } from "antd";
-import { useState } from "react";
+import {
+  Button,
+  DatePicker,
+  Dropdown,
+  Form,
+  Input,
+  Select,
+  Typography,
+} from "antd";
+import { GlobalOutlined } from "@ant-design/icons";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -8,6 +17,8 @@ import data from "../../../BoboshkaNutrishion.json";
 import { authApi } from "../../api/auth";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Grid, theme } from "antd";
+import { NavBarContext } from "../../provider/NavBarProvider";
+import { language } from "../../lang/lang";
 
 dayjs.extend(customParseFormat);
 
@@ -18,12 +29,18 @@ const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export const SignUp = () => {
+  const { lang, setLang } = useContext(NavBarContext);
   const { token } = useToken();
   const screens = useBreakpoint();
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [district, setDistrict] = useState<string>("");
+  const [districtOtherVisible, setDistrictOtherVisible] =
+    useState<boolean>(false);
+  const [jamoatOtherVisible, setJamoatOtherVisible] = useState<boolean>(false);
+  const [villageOtherVisible, setVillageOtherVisible] =
+    useState<boolean>(false);
   const [jamoat, setJamoat] = useState<string>("");
   const [village, setVillage] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
@@ -32,8 +49,8 @@ export const SignUp = () => {
   const [fio, setFio] = useState<string>("");
   const [fromWho, setFromWho] = useState<string>("");
 
-  async function onSubmit() {
-    await authApi.signUp({
+  async function onSubmit(value: any) {
+    const data = {
       username,
       email,
       password,
@@ -44,7 +61,13 @@ export const SignUp = () => {
       gender,
       fio,
       jamoat,
-    });
+      fromWho,
+    };
+    if (districtOtherVisible) data.district = value["other_district"];
+    if (jamoatOtherVisible) data.jamoat = value["other_jamoat"];
+    if (villageOtherVisible) data.village = value["other_village"];
+    await authApi.signUp(data);
+    navigate("/sign-in");
   }
 
   const navigate = useNavigate();
@@ -84,13 +107,36 @@ export const SignUp = () => {
     },
   };
 
-  const onFinish = () => {
-    onSubmit();
-    navigate("/sign-in");
-  };
-
   return (
-    <section style={styles.section}>
+    <section style={{ ...styles.section, position: "relative" }}>
+      <div style={{ position: "absolute", right: "10px", top: "10px" }}>
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: "ENG",
+                label: <>English</>,
+              },
+              {
+                key: "TJK",
+                label: <>Tajik</>,
+              },
+              {
+                key: "UZB",
+                label: <>Uzbek</>,
+              },
+            ],
+            selectable: true,
+            defaultSelectedKeys: [lang],
+            onClick: (elem) => {
+              setLang(elem.key as "ENG" | "TJK");
+            },
+          }}
+          placement="bottomRight"
+        >
+          <Button type="text" icon={<GlobalOutlined />}></Button>
+        </Dropdown>
+      </div>
       <div style={styles.container}>
         <div style={{ ...styles.header, textAlign: "center" }}>
           <svg
@@ -109,14 +155,14 @@ export const SignUp = () => {
             <path d="M4.92505 17.6H14.525V27.2001H4.92505V17.6Z" fill="white" />
           </svg>
 
-          <Title style={styles.title}>Sign up</Title>
-          <Text style={styles.text}>
+          <Title style={styles.title}>{language["signUp"][lang]}</Title>
+          {/* <Text style={styles.text}>
             Join us! Create an account to get started.
-          </Text>
+          </Text> */}
         </div>
         <Form
           name="normal_signup"
-          onFinish={onFinish}
+          onFinish={onSubmit}
           layout="vertical"
           requiredMark="optional"
         >
@@ -157,7 +203,7 @@ export const SignUp = () => {
             <Input.Password
               prefix={<LockOutlined />}
               type="password"
-              placeholder="Password"
+              placeholder={language["password"][lang]}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
@@ -172,8 +218,7 @@ export const SignUp = () => {
             ]}
           >
             <Input
-              placeholder="FIO"
-              prefix={<UserOutlined />}
+              placeholder={language["fio"][lang]}
               value={fio}
               onChange={(event) => setFio(event.target.value)}
             />
@@ -184,28 +229,50 @@ export const SignUp = () => {
             rules={[{ required: true, message: "Please select district!" }]}
           >
             <Select
-              placeholder="Select your District!"
+              placeholder={language["slcD"][lang]}
               value={district}
               onChange={(event) => {
+                if (event === "other") setDistrictOtherVisible(true);
+                else setDistrictOtherVisible(false);
                 setDistrict(event);
                 setJamoat("");
                 setVillage("");
               }}
             >
               {data["district"].map((elem) => (
-                <Option key={elem.name}>{elem["label::English"]}</Option>
+                <Option key={elem.name}>
+                  {elem[`label::${lang === "ENG" ? "English" : "Tajik"}`]}
+                </Option>
               ))}
+              <Option key="other">{language["other"][lang]}</Option>
             </Select>
           </Form.Item>
 
+          {districtOtherVisible && (
+            <Form.Item
+              name="other_district"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your disctrict!",
+                },
+              ]}
+            >
+              <Input placeholder="Other District" />
+            </Form.Item>
+          )}
+
           <Form.Item
+            hidden={districtOtherVisible}
             name="jamoat"
             // rules={[{ required: true, message: "Please select jamoat!" }]}
           >
             <Select
-              placeholder="Select your Jamoat!"
+              placeholder={language["slcJ"][lang]}
               value={jamoat}
               onChange={(event) => {
+                if (event === "other") setJamoatOtherVisible(true);
+                else setJamoatOtherVisible(false);
                 setJamoat(event);
                 setVillage("");
               }}
@@ -213,26 +280,71 @@ export const SignUp = () => {
               {data["jamoat"]
                 .filter((elem) => elem.district === district)
                 .map((elem) => (
-                  <Option key={elem.name}>{elem["label::English"]}</Option>
+                  <Option key={elem.name}>
+                    {elem[`label::${lang === "ENG" ? "English" : "Tajik"}`]}
+                  </Option>
                 ))}
+              {data["jamoat"].filter((elem) => elem.district === district)
+                .length > 0 && (
+                <Option key="other">{language["other"][lang]}</Option>
+              )}
             </Select>
           </Form.Item>
+
+          {jamoatOtherVisible && (
+            <Form.Item
+              name="other_jamoat"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your jamoat!",
+                },
+              ]}
+            >
+              <Input placeholder="Other Jamoat" />
+            </Form.Item>
+          )}
+
           <Form.Item
+            hidden={districtOtherVisible || jamoatOtherVisible}
             name="village"
             // rules={[{ required: true, message: "Please select village!" }]}
           >
             <Select
               value={village}
-              onChange={(event) => setVillage(event)}
-              placeholder="Select your Village!"
+              onChange={(event) => {
+                if (event === "other") setVillageOtherVisible(true);
+                else setVillageOtherVisible(false);
+                setVillage(event);
+              }}
+              placeholder={language["slcV"][lang]}
             >
               {data["village"]
                 .filter((elem) => elem.jamoat === jamoat)
                 .map((elem) => (
-                  <Option key={elem.name}>{elem["label::English"]}</Option>
+                  <Option key={elem.name}>
+                    {elem[`label::${lang === "ENG" ? "English" : "Tajik"}`]}
+                  </Option>
                 ))}
+              {data["village"].filter((elem) => elem.jamoat === jamoat).length >
+                0 && <Option key="other">{language["other"][lang]}</Option>}
             </Select>
           </Form.Item>
+
+          {villageOtherVisible && (
+            <Form.Item
+              name="other_village"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your village!",
+                },
+              ]}
+            >
+              <Input placeholder="Other Village" />
+            </Form.Item>
+          )}
+
           <Form.Item
             name="birthDay"
             rules={[
@@ -240,7 +352,7 @@ export const SignUp = () => {
             ]}
           >
             <DatePicker
-              placeholder="Select Birthday"
+              placeholder={language["slcB"][lang]}
               style={{ width: "100%" }}
               onChange={(_, dateString) => {
                 setBirthday(dateString);
@@ -257,7 +369,7 @@ export const SignUp = () => {
             ]}
           >
             <Input
-              placeholder="Telephone Number"
+              placeholder={language["tlp"][lang]}
               value={telephone}
               onChange={(event) => setTelephone(event.target.value)}
             />
@@ -267,30 +379,30 @@ export const SignUp = () => {
             rules={[{ required: true, message: "Please select gender!" }]}
           >
             <Select
-              placeholder="Select your gender!"
+              placeholder={language["slcG"][lang]}
               value={gender}
               onChange={(event) => setGender(event)}
             >
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
+              <Option value="male">{language["male"][lang]}</Option>
+              <Option value="female">{language["female"][lang]}</Option>
             </Select>
           </Form.Item>
           <Form.Item name="fromWho">
             <Input
               value={fromWho}
               onChange={(event) => setFromWho(event.target.value)}
-              placeholder="Who give you this link?"
+              placeholder={language["lastField"][lang]}
             />
           </Form.Item>
 
           <Form.Item style={{ marginBottom: "0px" }}>
             <Button block type="primary" htmlType="submit">
-              Sign up
+              {language["signUp"][lang]}
             </Button>
             <div style={{ ...styles.signup, textAlign: "center" }}>
-              <Text style={styles.text}>Already have an account?</Text>{" "}
+              <Text style={styles.text}>{language["lass"][lang]}</Text>{" "}
               <Link href="" onClick={() => navigate("/sign-in")}>
-                Sign in
+                {language["signIn"][lang]}
               </Link>
             </div>
           </Form.Item>

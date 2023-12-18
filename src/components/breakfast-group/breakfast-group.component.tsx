@@ -40,7 +40,6 @@ export const Step = ({
             key={index}
             checked={selected.includes(select["name"])}
             onChange={(e: CheckboxChangeEvent) => {
-              console.log(e.target.checked);
               if (e.target.checked)
                 setSelected((prev) => [...prev, select["name"]]);
               else
@@ -110,7 +109,10 @@ export const BreakfastGroup = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Divider orientation="left">
+        <Divider
+          orientation="left"
+          style={{ wordBreak: "normal", whiteSpace: "normal" }}
+        >
           {question[
             `label::${
               lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"

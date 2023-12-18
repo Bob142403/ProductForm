@@ -53,7 +53,10 @@ export const LunchGroup = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Divider orientation="left">
+        <Divider
+          orientation="left"
+          style={{ wordBreak: "normal", whiteSpace: "normal" }}
+        >
           {question[
             `label::${
               lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"

@@ -1,16 +1,21 @@
-import { Button, Form, Input, Typography } from "antd";
+import { Button, Dropdown, Form, Input, Typography } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { authApi } from "../../api/auth";
-import { Checkbox, Grid, theme } from "antd";
+import { Grid, theme } from "antd";
 
 import { UserOutlined } from "@ant-design/icons";
+import { useContext } from "react";
+import { NavBarContext } from "../../provider/NavBarProvider";
+import { GlobalOutlined } from "@ant-design/icons";
+import { language } from "../../lang/lang";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export const SignIn = () => {
+  const { lang, setLang } = useContext(NavBarContext);
   const { token } = useToken();
   const screens = useBreakpoint();
 
@@ -67,7 +72,35 @@ export const SignIn = () => {
   const navigate = useNavigate();
 
   return (
-    <section style={styles.section}>
+    <section style={{ ...styles.section, position: "relative" }}>
+      <div style={{ position: "absolute", right: "10px", top: "10px" }}>
+        <Dropdown
+          menu={{
+            items: [
+              {
+                key: "ENG",
+                label: <>English</>,
+              },
+              {
+                key: "TJK",
+                label: <>Tajik</>,
+              },
+              {
+                key: "UZB",
+                label: <>Uzbek</>,
+              },
+            ],
+            selectable: true,
+            defaultSelectedKeys: [lang],
+            onClick: (elem) => {
+              setLang(elem.key as "ENG" | "TJK");
+            },
+          }}
+          placement="bottomRight"
+        >
+          <Button type="text" icon={<GlobalOutlined />}></Button>
+        </Dropdown>
+      </div>
       <div style={styles.container}>
         <div style={{ ...styles.header, textAlign: "center" }}>
           <svg
@@ -92,11 +125,7 @@ export const SignIn = () => {
             />
           </svg>
 
-          <Title style={styles.title}>Sign in</Title>
-          <Text style={styles.text}>
-            Welcome back to AntBlocks UI! Please enter your details below to
-            sign in.
-          </Text>
+          <Title style={styles.title}>{language["signIn"][lang]}</Title>
         </div>
         <Form
           name="normal_login"
@@ -130,20 +159,21 @@ export const SignIn = () => {
             <Input.Password
               prefix={<LockOutlined />}
               type="password"
-              placeholder="Password"
+              placeholder={language["password"][lang]}
             />
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
             <a style={{ float: "right" }} href="">
               Forgot password?
             </a>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item style={{ marginBottom: "0px" }}>
             <Button block={true} type="primary" htmlType="submit">
-              Log in
+              {/* Log in */}
+              {language["signIn"][lang]}
             </Button>
             <div
               style={{
@@ -152,13 +182,14 @@ export const SignIn = () => {
                 marginTop: token.marginLG,
               }}
             >
-              <Text style={styles.text}>Don't have an account?</Text>{" "}
+              <Text style={styles.text}>{language["dont"][lang]}</Text>{" "}
               <Link
                 onClick={() => {
                   navigate("/sign-up");
                 }}
               >
-                Sign up now
+                {/* Sign up now */}
+                {language["signUp"][lang]}
               </Link>
             </div>
           </Form.Item>

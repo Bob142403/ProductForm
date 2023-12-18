@@ -31,13 +31,11 @@ export const RatingPage = () => {
 
   async function getCategory() {
     const user = JSON.parse(localStorage.getItem("user") || "");
-    console.log("user: ", user);
     const data = (await categoryApi.getCategory(user.id)).rows;
 
     setAllCategory(data);
   }
 
-  console.log("allCategory: ", allCategory);
   const data = useMemo(
     () => ({
       labels: allCategory.map((elem: any) =>

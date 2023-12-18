@@ -1,4 +1,4 @@
-import { Divider, List } from "antd";
+import { Button, Divider, List } from "antd";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { CategoryContext } from "../../provider/CategoryProvider";
 import { helpMessage } from "../../utils/helpmessage";
@@ -17,6 +17,9 @@ import {
 import { Line } from "react-chartjs-2";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
+import TextArea from "antd/es/input/TextArea";
+import { useNavigate } from "react-router-dom";
+import { feedbackApi } from "../../api/feedback";
 
 ChartJS.register(
   CategoryScale,
@@ -31,7 +34,9 @@ ChartJS.register(
 export const FinishPage = ({}: {}) => {
   const { category } = useContext(CategoryContext);
   const { lang } = useContext(NavBarContext);
-  const [allCategory, setAllCategory] = useState([]);
+  const [allCategory, setAllCategory] = useState<any[]>([]);
+  const [feedback, setFeedback] = useState<string>("");
+  const navigate = useNavigate();
 
   let index = 1;
   const resultCategory = [];
@@ -52,13 +57,12 @@ export const FinishPage = ({}: {}) => {
 
   async function getCategory() {
     const user = JSON.parse(localStorage.getItem("user") || "");
-    console.log("user: ", user);
+
     const data = (await categoryApi.getCategory(user.id)).rows;
 
     setAllCategory(data);
   }
 
-  console.log("allCategory: ", allCategory);
   const data = useMemo(
     () => ({
       labels: allCategory.map((elem: any) =>
@@ -142,7 +146,10 @@ export const FinishPage = ({}: {}) => {
         renderItem={(item) => <List.Item> {item}</List.Item>}
       />
 
-      <Divider orientation="left">
+      <Divider
+        orientation="left"
+        style={{ wordBreak: "normal", whiteSpace: "normal" }}
+      >
         {language["howTodoAllCategory"][lang]}
       </Divider>
 
@@ -155,6 +162,36 @@ export const FinishPage = ({}: {}) => {
       <Line options={options} data={data} />
 
       <Divider orientation="left">{language["feedback"][lang]}</Divider>
+      <div style={{ marginInline: "20px" }}>
+        <TextArea
+          rows={4}
+          placeholder={language["feedback"][lang]}
+          value={feedback}
+          style={{ resize: "none" }}
+          onChange={(event) => setFeedback(event.target.value)}
+        />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          marginBlock: "20px",
+        }}
+      >
+        <Button
+          type="primary"
+          onClick={async () => {
+            feedbackApi.insert({
+              formId: allCategory[allCategory.length - 1].id,
+              feedback,
+            });
+            navigate("/");
+          }}
+        >
+          {language["finish"][lang]}
+        </Button>
+      </div>
     </>
   );
 };

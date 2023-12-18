@@ -33,6 +33,7 @@ export const DinnerGroup = () => {
   const [selectedGroup, setSelectedGroup] = useState<string[]>([]);
   const [selectedFood, setSelectedFood] = useState<string[]>([]);
   const [seletedProduct, setSelectedProduct] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const group = data["choices"].filter(
     (elem) => elem.list_name === "DinnerGroup"
@@ -57,7 +58,10 @@ export const DinnerGroup = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Divider orientation="left">
+        <Divider
+          orientation="left"
+          style={{ wordBreak: "normal", whiteSpace: "normal" }}
+        >
           {question[
             `label::${
               lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
@@ -140,17 +144,24 @@ export const DinnerGroup = () => {
           </div>
           <Button
             type="primary"
+            loading={loading}
+            disabled={loading}
             onClick={async () => {
               const user = JSON.parse(localStorage.getItem("user") || "");
               if (step === "group") setStep("food");
               if (step === "food") setStep("product");
               if (step === "product") {
                 setCategory(dinnercategory(seletedProduct));
-                await categoryApi.insert({
-                  ...concatCategory(category, dinnercategory(seletedProduct)),
-                  userId: user.id,
-                  date: Date.now(),
-                });
+                setLoading(true);
+                await categoryApi
+                  .insert({
+                    ...concatCategory(category, dinnercategory(seletedProduct)),
+                    userId: user.id,
+                    date: Date.now(),
+                  })
+                  .then(() => {
+                    setLoading(false);
+                  });
                 navigate("/finish");
               }
             }}

@@ -5,26 +5,29 @@ import {
   Button,
   Dropdown,
   Grid,
+  Input,
   Menu,
   MenuProps,
+  Modal,
   Space,
+  Typography,
   theme,
 } from "antd";
 import {
   GlobalOutlined,
   SettingOutlined,
   RollbackOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-
-import Logo from "../../assets/logo";
 import { useNavigate } from "react-router-dom";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
+const { Title } = Typography;
 
 export default function NavBar() {
   const { token } = useToken();
@@ -33,7 +36,13 @@ export default function NavBar() {
 
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem("user") || "{}") as any;
+
   const [current, setCurrent] = useState("");
+  const [username, setUsername] = useState<string>(user.username);
+  const [email, setEmail] = useState<string>(user.email);
+  const [telephone, setTelephone] = useState<string>(user.telephone);
+  const [fio, setFio] = useState<string>(user.fio);
 
   const onClick = (e: any) => {
     navigate("/rating");
@@ -58,7 +67,7 @@ export default function NavBar() {
     },
     logo: {
       display: "block",
-      height: token.sizeLG,
+      // height: token.sizeLG,
       left: "50%",
       position: screens.md ? "static" : "absolute",
       top: "50%",
@@ -101,97 +110,164 @@ export default function NavBar() {
       key: "rating",
     },
   ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = async () => {
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ ...user, username, email, fio, telephone })
+    );
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setUsername(user.username);
+    setEmail(user.email);
+    setFio(user.fio);
+    setTelephone(user.telephone);
+    setIsModalOpen(false);
+  };
 
   return (
-    <nav style={{ ...styles.header, position: "relative" }}>
-      <div style={styles.container}>
-        <div style={styles.menuContainer}>
-          <a
-            style={{
-              ...styles.logo,
-              position: screens.md ? "static" : "absolute",
-              cursor: "pointer",
-            }}
-            onClick={() => {
-              navigate("/");
-              setCurrent("");
-            }}
-          >
-            <Logo showText={true} />
-          </a>
-          <Menu
-            style={styles.menu}
-            mode="horizontal"
-            items={menuItems}
-            onClick={onClick}
-            selectedKeys={screens.md ? [current] : undefined}
-            overflowedIndicator={
-              <Button type="text" icon={<MenuOutlined />}></Button>
-            }
-          />
-        </div>
-        <Space>
-          <Dropdown
-            menu={{
-              items,
-              selectable: true,
-              defaultSelectedKeys: [lang],
-              onClick: (elem) => {
-                setLang(elem.key as "ENG" | "TJK");
-              },
-            }}
-            placement="bottomRight"
-          >
-            <Button type="text" icon={<GlobalOutlined />}></Button>
-          </Dropdown>
-          {!localStorage.getItem("token") ? (
-            <>
-              {screens.md ? (
-                <Button type="text" onClick={() => navigate("/sign-in")}>
-                  Log in
-                </Button>
-              ) : (
-                ""
-              )}
-              <Button onClick={() => navigate("/sign-up")} type="primary">
-                Sign up
-              </Button>
-            </>
-          ) : (
+    <>
+      <nav style={{ ...styles.header, position: "relative" }}>
+        <div style={styles.container}>
+          <div style={styles.menuContainer}>
+            <a
+              style={{
+                ...styles.logo,
+                position: screens.md ? "static" : "absolute",
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "5px",
+              }}
+              onClick={() => {
+                navigate("/");
+                setCurrent("");
+              }}
+            >
+              <img src="/logo.png" style={{ width: "20px", height: "20px" }} />
+
+              <Title style={{ margin: "0", wordBreak: "normal" }} level={5}>
+                DietFH
+              </Title>
+            </a>
+            <Menu
+              style={styles.menu}
+              mode="horizontal"
+              items={menuItems}
+              onClick={onClick}
+              selectedKeys={screens.md ? [current] : undefined}
+              overflowedIndicator={
+                <Button type="text" icon={<MenuOutlined />}></Button>
+              }
+            />
+          </div>
+          <Space>
             <Dropdown
               menu={{
-                items: [
-                  {
-                    key: "user",
-                    label: <>Change User Settings</>,
-                    icon: <SettingOutlined />,
-                  },
-                  {
-                    key: "out",
-                    label: <>Log out</>,
-                    icon: <RollbackOutlined />,
-                  },
-                ],
+                items,
+                selectable: true,
+                defaultSelectedKeys: [lang],
                 onClick: (elem) => {
-                  if (elem.key === "out") {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    navigate("/");
-                  }
-                  if (elem.key === "user") {
-                  }
+                  setLang(elem.key as "ENG" | "TJK");
                 },
               }}
               placement="bottomRight"
             >
-              <Avatar
-                style={{ backgroundColor: "#87d068" }}
-                icon={<UserOutlined />}
-              />
+              <Button type="text" icon={<GlobalOutlined />}></Button>
             </Dropdown>
-          )}
-        </Space>
-      </div>
-    </nav>
+            {!localStorage.getItem("token") ? (
+              <>
+                {screens.md ? (
+                  <Button type="text" onClick={() => navigate("/sign-in")}>
+                    Log in
+                  </Button>
+                ) : (
+                  ""
+                )}
+                <Button onClick={() => navigate("/sign-up")} type="primary">
+                  Sign up
+                </Button>
+              </>
+            ) : (
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: "user",
+                      label: <>Change User Settings</>,
+                      icon: <SettingOutlined />,
+                    },
+                    {
+                      key: "out",
+                      label: <>Log out</>,
+                      icon: <RollbackOutlined />,
+                    },
+                  ],
+                  onClick: (elem) => {
+                    if (elem.key === "out") {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("user");
+                      navigate("/");
+                    }
+                    if (elem.key === "user") {
+                      showModal();
+                    }
+                  },
+                }}
+                placement="bottomRight"
+              >
+                <Avatar
+                  style={{ backgroundColor: "#87d068" }}
+                  icon={<UserOutlined />}
+                />
+              </Dropdown>
+            )}
+          </Space>
+        </div>
+      </nav>
+      <Modal
+        title="User settings"
+        closeIcon={false}
+        open={isModalOpen}
+        onOk={handleOk}
+        okText="Save"
+        onCancel={handleCancel}
+      >
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <Input
+            required
+            prefix={<UserOutlined />}
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            placeholder="UserName"
+          />
+          <Input
+            prefix={<MailOutlined />}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="Email"
+          />
+          <Input
+            required
+            placeholder="FIO"
+            value={fio}
+            onChange={(event) => setFio(event.target.value)}
+          />
+          <Input
+            placeholder="Telephone Number"
+            value={telephone}
+            onChange={(event) => setTelephone(event.target.value)}
+          />
+        </div>
+      </Modal>
+    </>
   );
 }
