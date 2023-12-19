@@ -14,7 +14,7 @@ export const NavBarProvider = ({
   children: React.JSX.Element;
 }) => {
   const [lang, setLang] = useState<"ENG" | "TJK" | "UZB">(
-    (localStorage.getItem("lang") as "ENG" & "TJK" & "UZB") || "ENG"
+    (localStorage.getItem("lang") as "ENG" & "TJK" & "UZB") || "TJK"
   );
 
   return (
