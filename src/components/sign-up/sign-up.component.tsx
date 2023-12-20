@@ -1,12 +1,4 @@
-import {
-  Button,
-  DatePicker,
-  Dropdown,
-  Form,
-  Input,
-  Select,
-  Typography,
-} from "antd";
+import { Button, Dropdown, Form, Input, Select, Typography } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +7,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 // import styles from "./sign-up.style.module.css";
 import data from "../../../BoboshkaNutrishion.json";
 import { authApi } from "../../api/auth";
-import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Grid, theme } from "antd";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
@@ -33,17 +25,17 @@ export const SignUp = () => {
   const { token } = useToken();
   const screens = useBreakpoint();
   const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [district, setDistrict] = useState<string>("");
   const [districtOtherVisible, setDistrictOtherVisible] =
     useState<boolean>(false);
-  const [jamoatOtherVisible, setJamoatOtherVisible] = useState<boolean>(false);
-  const [villageOtherVisible, setVillageOtherVisible] =
-    useState<boolean>(false);
+  // const [jamoatOtherVisible, setJamoatOtherVisible] = useState<boolean>(false);
+  // const [villageOtherVisible, setVillageOtherVisible] =
+  //   useState<boolean>(false);
   const [jamoat, setJamoat] = useState<string>("");
   const [village, setVillage] = useState<string>("");
-  const [birthday, setBirthday] = useState<string>("");
+  const [birthday, setBirthday] = useState<number>(2000);
   const [telephone, setTelephone] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [fio, setFio] = useState<string>("");
@@ -52,7 +44,7 @@ export const SignUp = () => {
   async function onSubmit(value: any) {
     const data = {
       username,
-      email,
+      email: "",
       password,
       district,
       village,
@@ -64,8 +56,8 @@ export const SignUp = () => {
       fromWho,
     };
     if (districtOtherVisible) data.district = value["other_district"];
-    if (jamoatOtherVisible) data.jamoat = value["other_jamoat"];
-    if (villageOtherVisible) data.village = value["other_village"];
+    // if (jamoatOtherVisible) data.jamoat = value["other_jamoat"];
+    // if (villageOtherVisible) data.village = value["other_village"];
     await authApi.signUp(data);
     navigate("/sign-in");
   }
@@ -182,14 +174,14 @@ export const SignUp = () => {
               placeholder="UserName"
             />
           </Form.Item>
-          <Form.Item name="email">
+          {/* <Form.Item name="email">
             <Input
               prefix={<MailOutlined />}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Email"
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name="password"
             // extra="Password needs to be at least 8 characters."
@@ -262,7 +254,7 @@ export const SignUp = () => {
             </Form.Item>
           )}
 
-          <Form.Item
+          {/* <Form.Item
             hidden={districtOtherVisible}
             name="jamoat"
             // rules={[{ required: true, message: "Please select jamoat!" }]}
@@ -343,7 +335,7 @@ export const SignUp = () => {
             >
               <Input placeholder="Other Village" />
             </Form.Item>
-          )}
+          )} */}
 
           <Form.Item
             name="birthDay"
@@ -351,12 +343,21 @@ export const SignUp = () => {
               { required: true, message: "Please select your birthday!" },
             ]}
           >
-            <DatePicker
+            {/* <DatePicker
               placeholder={language["slcB"][lang]}
               style={{ width: "100%" }}
               onChange={(_, dateString) => {
                 setBirthday(dateString);
               }}
+            /> */}
+
+            <Input
+              placeholder="Year"
+              type="number"
+              value={birthday}
+              onChange={(elem) => setBirthday(+elem.target.value)}
+              min={40}
+              max={2023}
             />
           </Form.Item>
           <Form.Item
