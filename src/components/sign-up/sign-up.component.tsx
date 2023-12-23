@@ -1,4 +1,12 @@
-import { Button, Dropdown, Form, Input, Select, Typography } from "antd";
+import {
+  Button,
+  Dropdown,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Typography,
+} from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -163,7 +171,7 @@ export const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your Name!",
+                message: language["reqn"][lang],
               },
             ]}
           >
@@ -171,7 +179,7 @@ export const SignUp = () => {
               prefix={<UserOutlined />}
               value={username}
               onChange={(event) => setUsername(event.target.value)}
-              placeholder="UserName"
+              placeholder={language["usr"][lang]}
             />
           </Form.Item>
           {/* <Form.Item name="email">
@@ -188,14 +196,14 @@ export const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your Password!",
+                message: language["reqp"][lang],
               },
             ]}
           >
             <Input.Password
               prefix={<LockOutlined />}
               type="password"
-              placeholder={language["password"][lang]}
+              placeholder={language["pass"][lang]}
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
@@ -205,7 +213,7 @@ export const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your first and last name!",
+                message: language["reqf"][lang],
               },
             ]}
           >
@@ -218,7 +226,7 @@ export const SignUp = () => {
 
           <Form.Item
             name="district"
-            rules={[{ required: true, message: "Please select district!" }]}
+            rules={[{ required: true, message: language["reqd"][lang] }]}
           >
             <Select
               placeholder={language["slcD"][lang]}
@@ -246,11 +254,11 @@ export const SignUp = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your disctrict!",
+                  message: language["reqid"][lang],
                 },
               ]}
             >
-              <Input placeholder="Other District" />
+              <Input placeholder={language["od"][lang]} />
             </Form.Item>
           )}
 
@@ -339,9 +347,7 @@ export const SignUp = () => {
 
           <Form.Item
             name="birthDay"
-            rules={[
-              { required: true, message: "Please select your birthday!" },
-            ]}
+            rules={[{ required: true, message: language["reqb"][lang] }]}
           >
             {/* <DatePicker
               placeholder={language["slcB"][lang]}
@@ -351,12 +357,14 @@ export const SignUp = () => {
               }}
             /> */}
 
-            <Input
-              placeholder="Year"
+            <InputNumber
+              placeholder={language["userBr"][lang]}
               type="number"
               value={birthday}
-              onChange={(elem) => setBirthday(+elem.target.value)}
-              min={40}
+              onChange={(elem) => {
+                if (elem && elem >= 1900 && elem <= 2023) setBirthday(elem);
+              }}
+              min={1900}
               max={2023}
             />
           </Form.Item>
@@ -365,7 +373,7 @@ export const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your telephone number!",
+                message: language["reqt"][lang],
               },
             ]}
           >
@@ -377,7 +385,7 @@ export const SignUp = () => {
           </Form.Item>
           <Form.Item
             name="gender"
-            rules={[{ required: true, message: "Please select gender!" }]}
+            rules={[{ required: true, message: language["reqg"][lang] }]}
           >
             <Select
               placeholder={language["slcG"][lang]}

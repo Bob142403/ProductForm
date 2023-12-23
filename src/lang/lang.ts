@@ -159,4 +159,64 @@ export const language = {
     ENG: "Don't have an account?",
     UZB: "Hisobingiz yo'qmi?",
   },
+  reqn: {
+    TJK: "Номи худро ворид кунед! ",
+    ENG: "Please input your Name!",
+    UZB: "Ismingizni kiriting! ",
+  },
+  reqp: {
+    TJK: "Паролии худро ворид кунед! ",
+    ENG: "Please input your Password! ",
+    UZB: "Parolingizni kiriting!",
+  },
+  reqf: {
+    TJK: "Ном ва насабатонро ворид кунед!",
+    ENG: "Please input your first and last name! ",
+    UZB: "Ism va familiyangizni kiriting! ",
+  },
+  reqd: {
+    TJK: "Ноҳияро интихоб кунед! ",
+    ENG: "Please select district! ",
+    UZB: "Mintaqa tanlang!",
+  },
+  reqid: {
+    TJK: "Ноҳияи худро ворид кунед! ",
+    ENG: "Please input your district! ",
+    UZB: "Tumaningizni kiriting! ",
+  },
+  od: {
+    TJK: "Ноҳияи дигар ",
+    ENG: "Other District ",
+    UZB: "Boshqa tuman",
+  },
+  reqg: {
+    TJK: "Ҷинсро интихоб кунед! ",
+    ENG: "Please select gender! ",
+    UZB: "Jinsni tanlang! ",
+  },
+  reqb: {
+    TJK: "Соли таваллуди худро интихоб кунед! ",
+    ENG: "Please select your Birth year! ",
+    UZB: "Tug'ilgan kuningizni tanlang!",
+  },
+  reqt: {
+    TJK: "Рақами телефони худро ворид кунед! ",
+    ENG: "Please input your telephone number! ",
+    UZB: "Telefon raqamingizni kiriting! ",
+  },
+  usr: {
+    TJK: "Истифодабаранда  ",
+    ENG: "Username ",
+    UZB: "Foydalanuvchi nomi ",
+  },
+  pass: {
+    TJK: "Парол  ",
+    ENG: "Password  ",
+    UZB: "Parol  ",
+  },
+  userBr: {
+    TJK: "Соли таваллуди истифодабаранда ",
+    ENG: "User's birth year ",
+    UZB: "Foydalanuvchining tug'ilgan yili ",
+  },
 };
