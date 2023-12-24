@@ -219,4 +219,9 @@ export const language = {
     ENG: "User's birth year ",
     UZB: "Foydalanuvchining tug'ilgan yili ",
   },
+  category: {
+    TJK: "Category",
+    ENG: "Category",
+    UZB: "Category",
+  },
 };

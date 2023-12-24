@@ -19,6 +19,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Grid, theme } from "antd";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
+import { ToolsContext } from "../../provider/ToolsProvider";
 
 dayjs.extend(customParseFormat);
 
@@ -29,7 +30,9 @@ const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export const SignUp = () => {
+  const { messageApi } = useContext(ToolsContext);
   const { lang, setLang } = useContext(NavBarContext);
+  const [loading, setLoading] = useState<boolean>(false);
   const { token } = useToken();
   const screens = useBreakpoint();
   const [username, setUsername] = useState<string>("");
@@ -66,8 +69,16 @@ export const SignUp = () => {
     if (districtOtherVisible) data.district = value["other_district"];
     // if (jamoatOtherVisible) data.jamoat = value["other_jamoat"];
     // if (villageOtherVisible) data.village = value["other_village"];
-    await authApi.signUp(data);
-    navigate("/sign-in");
+    setLoading(true);
+    try {
+      const message = await authApi.signUp(data);
+      if (messageApi) messageApi.open({ type: "success", content: message });
+
+      navigate("/sign-in");
+    } catch (err) {
+      if (messageApi) messageApi.open({ type: "error", content: `${err}` });
+    }
+    setLoading(false);
   }
 
   const navigate = useNavigate();
@@ -358,6 +369,7 @@ export const SignUp = () => {
             /> */}
 
             <InputNumber
+              style={{ width: "100%" }}
               placeholder={language["userBr"][lang]}
               type="number"
               value={birthday}
@@ -405,7 +417,13 @@ export const SignUp = () => {
           </Form.Item>
 
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block type="primary" htmlType="submit">
+            <Button
+              block
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              disabled={loading}
+            >
               {language["signUp"][lang]}
             </Button>
             <div style={{ ...styles.signup, textAlign: "center" }}>

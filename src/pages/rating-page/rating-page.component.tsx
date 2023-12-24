@@ -110,7 +110,7 @@ export const RatingPage = () => {
     },
   };
   return (
-    <div style={{ display: "flex", justifyContent: "center", margin: "10px" }}>
+    <div style={{ display: "flex", justifyContent: "center", padding: "10px" }}>
       <Line options={options} data={data} />
     </div>
   );

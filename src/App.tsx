@@ -9,38 +9,46 @@ import { FinishPage } from "./pages/finish-page/finish-page.component";
 import { HomePage } from "./pages/home-page/home-page.component";
 import { HomeIntro } from "./pages/home-intro/home-intro.component";
 import { RatingPage } from "./pages/rating-page/rating-page.component";
+import { CategoryPage } from "./pages/category-page/category-page.component";
+import { useContext } from "react";
+import { ToolsContext } from "./provider/ToolsProvider";
+import { CommentsPage } from "./pages/comments-page/comments-page.component";
 
 function App() {
+  const { contextHolder } = useContext(ToolsContext);
   return (
-    <BrowserRouter basename="/">
-      <Routes>
-        {/* <Route
+    <>
+      {contextHolder}
+      <BrowserRouter basename="/">
+        <Routes>
+          {/* <Route
           path="/"
           element={<AuthCheck children={<BreakfastGroup />} />}
         ></Route> */}
-        <Route path="/" element={<HomePage />}>
-          <Route path="" element={<HomeIntro />} />
-          <Route
-            path="breakfast"
-            element={<AuthCheck children={<BreakfastGroup />} />}
-          >
-            
+          <Route path="/" element={<HomePage />}>
+            <Route path="" element={<HomeIntro />} />
+            <Route
+              path="breakfast"
+              element={<AuthCheck children={<BreakfastGroup />} />}
+            ></Route>
+            <Route
+              path="lunch"
+              element={<AuthCheck children={<LunchGroup />} />}
+            />
+            <Route
+              path="dinner"
+              element={<AuthCheck children={<DinnerGroup />} />}
+            />
+            <Route path="finish" element={<FinishPage />} />
+            <Route path="rating" element={<RatingPage />} />
+            <Route path="category" element={<CategoryPage />} />
+            <Route path="comments" element={<CommentsPage />} />
           </Route>
-          <Route
-            path="lunch"
-            element={<AuthCheck children={<LunchGroup />} />}
-          />
-          <Route
-            path="dinner"
-            element={<AuthCheck children={<DinnerGroup />} />}
-          />
-          <Route path="finish" element={<FinishPage />} />
-          <Route path="rating" element={<RatingPage />} />
-        </Route>
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
+    </>
     // <HomePage />
   );
 }

@@ -5,7 +5,12 @@ import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { lunchCategory } from "../../utils/lunchcategory";
 import { CategoryContext } from "../../provider/CategoryProvider";
-import { Step, Type } from "../breakfast-group/breakfast-group.component";
+import {
+  LastStep,
+  NewStep,
+  Step,
+  Type,
+} from "../breakfast-group/breakfast-group.component";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
 
@@ -20,9 +25,7 @@ export const LunchGroup = () => {
   const questionforFood = data["survey"].find(
     (elem) => elem.type === "select_multiple LunchFood"
   ) as Type;
-  const questionforProduct = data["survey"].find(
-    (elem) => elem.type === "select_multiple LunchProduct"
-  ) as Type;
+
   const navigate = useNavigate();
 
   const [step, setStep] = useState<"group" | "food" | "product">("group");
@@ -37,7 +40,27 @@ export const LunchGroup = () => {
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "LunchFood")
-        .filter((elem) => selectedGroup.includes(elem["LunchGroup"])),
+        .filter(
+          (elem) =>
+            selectedGroup.includes(elem["LunchGroup"]) &&
+            data["choices"]
+              .filter((elem2) => elem2.list_name === "LunchProduct")
+              .filter((elem1) => elem["name"] === elem1["LunchFood"]).length > 1
+        ),
+    [selectedGroup]
+  );
+  const hiddenFoods = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "LunchFood")
+        .filter(
+          (elem) =>
+            selectedGroup.includes(elem["LunchGroup"]) &&
+            data["choices"]
+              .filter((elem2) => elem2.list_name === "LunchProduct")
+              .filter((elem1) => elem["name"] === elem1["LunchFood"]).length <=
+              1
+        ),
     [selectedGroup]
   );
   const products = useMemo(
@@ -46,6 +69,23 @@ export const LunchGroup = () => {
         .filter((elem) => elem.list_name === "LunchProduct")
         .filter((elem) => selectedFood.includes(elem["LunchFood"])),
     [selectedFood]
+  );
+  const hiddenProducts = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "LunchProduct")
+        .filter((elem) =>
+          hiddenFoods.map((elem1) => elem1.name).includes(elem["LunchFood"])
+        ),
+    [hiddenFoods]
+  );
+
+  const hiddenGroups = useMemo(
+    () =>
+      Array.from(new Set(hiddenFoods.map((elem) => elem["LunchGroup"]))).map(
+        (elem) => group.find((elem1) => elem1["name"] === elem)
+      ),
+    [hiddenFoods]
   );
 
   if (!question) return <></>;
@@ -83,7 +123,9 @@ export const LunchGroup = () => {
           />
         )}
         {step === "food" && (
-          <Step
+          <NewStep
+            allprevData={group}
+            prevData={selectedGroup}
             title={
               questionforFood[
                 `label::${
@@ -102,19 +144,24 @@ export const LunchGroup = () => {
           />
         )}
         {step === "product" && (
-          <Step
+          <LastStep
+            hiddenGroups={hiddenGroups}
+            hiddenFoods={hiddenFoods}
+            hiddenProducts={hiddenProducts}
+            allprevData={foods}
+            prevData={selectedFood}
             lang={lang}
-            title={
-              questionforProduct[
-                `label::${
-                  lang === "ENG"
-                    ? "English"
-                    : lang === "TJK"
-                    ? "Tajik"
-                    : "Uzbek"
-                }`
-              ]
-            }
+            // title={
+            //   questionforProduct[
+            //     `label::${
+            //       lang === "ENG"
+            //         ? "English"
+            //         : lang === "TJK"
+            //         ? "Tajik"
+            //         : "Uzbek"
+            //     }`
+            //   ]
+            // }
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}

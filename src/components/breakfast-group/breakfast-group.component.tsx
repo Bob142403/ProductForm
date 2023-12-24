@@ -1,4 +1,4 @@
-import { Button, Checkbox, Divider, Typography } from "antd";
+import { Button, Checkbox, Divider, List, Typography } from "antd";
 import data from "../../../BoboshkaNutrishion.json";
 import styles from "./breakfast-group.style.module.css";
 import { useContext, useMemo, useState } from "react";
@@ -14,6 +14,12 @@ export interface Type {
   "label::English": string;
   "label::Tajik": string;
   "label::Uzbek": string;
+  BreakfastGroup?: string;
+  Food?: string;
+  LunchGroup?: string;
+  LunchFood?: string;
+  DinnerFood?: string;
+  DinnerGroup?: string;
 }
 
 export const Step = ({
@@ -63,6 +69,261 @@ export const Step = ({
     </div>
   );
 };
+export const NewStep = ({
+  title,
+  selected,
+  setSelected,
+  list,
+  lang,
+  prevData,
+  allprevData,
+}: {
+  title?: string;
+  selected: string[];
+  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
+  list: Type[];
+  lang: string;
+  prevData: string[];
+  allprevData: any[];
+}) => {
+  return (
+    <div className={styles.firstQuestion}>
+      <Title level={5} style={{ marginTop: "0" }}>
+        {title}
+      </Title>
+      <div className={styles.checkboxList}>
+        {prevData.map((elem, index) => (
+          <>
+            {list.filter(
+              (lis) =>
+                elem === lis["BreakfastGroup"] ||
+                elem === lis["Food"] ||
+                elem === lis["LunchGroup"] ||
+                elem === lis["LunchFood"] ||
+                elem === lis["DinnerGroup"] ||
+                elem === lis["DinnerFood"]
+            ).length > 0 && (
+              <List
+                key={index}
+                header={
+                  <Title style={{ margin: 0 }} level={5}>
+                    {
+                      allprevData.find((prev) => prev.name === elem)[
+                        `label::${
+                          lang === "ENG"
+                            ? "English"
+                            : lang === "TJK"
+                            ? "Tajik"
+                            : "Uzbek"
+                        }`
+                      ]
+                    }
+                  </Title>
+                }
+                bordered
+                dataSource={list.filter(
+                  (lis) =>
+                    elem === lis["BreakfastGroup"] ||
+                    elem === lis["Food"] ||
+                    elem === lis["LunchGroup"] ||
+                    elem === lis["LunchFood"] ||
+                    elem === lis["DinnerGroup"] ||
+                    elem === lis["DinnerFood"]
+                )}
+                renderItem={(select, index) => (
+                  <List.Item>
+                    <Checkbox
+                      style={{ width: "100%" }}
+                      key={index}
+                      checked={selected.includes(select["name"])}
+                      onChange={(e: CheckboxChangeEvent) => {
+                        if (e.target.checked)
+                          setSelected((prev) => [...prev, select["name"]]);
+                        else
+                          setSelected(
+                            selected.filter((elem) => elem !== select["name"])
+                          );
+                      }}
+                    >
+                      {
+                        select[
+                          `label::${
+                            lang === "ENG"
+                              ? "English"
+                              : lang === "TJK"
+                              ? "Tajik"
+                              : "Uzbek"
+                          }`
+                        ]
+                      }
+                    </Checkbox>
+                  </List.Item>
+                )}
+              />
+            )}
+          </>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export const LastStep = ({
+  title,
+  selected,
+  setSelected,
+  list,
+  lang,
+  prevData,
+  allprevData,
+  hiddenFoods,
+  hiddenProducts,
+  hiddenGroups,
+}: {
+  title?: string;
+  selected: string[];
+  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
+  list: Type[];
+  lang: string;
+  prevData: string[];
+  allprevData: any[];
+  hiddenFoods: any[];
+  hiddenProducts: any[];
+  hiddenGroups: any[];
+}) => {
+  return (
+    <div className={styles.firstQuestion}>
+      <Title level={5} style={{ marginTop: "0" }}>
+        {title}
+      </Title>
+      <div className={styles.checkboxList}>
+        {prevData.map((elem, index) => (
+          <List
+            key={index}
+            header={
+              <Title style={{ margin: 0 }} level={5}>
+                {
+                  allprevData.find((prev) => prev.name === elem)[
+                    `label::${
+                      lang === "ENG"
+                        ? "English"
+                        : lang === "TJK"
+                        ? "Tajik"
+                        : "Uzbek"
+                    }`
+                  ]
+                }
+              </Title>
+            }
+            bordered
+            dataSource={list.filter(
+              (lis) =>
+                elem === lis["BreakfastGroup"] ||
+                elem === lis["Food"] ||
+                elem === lis["LunchGroup"] ||
+                elem === lis["LunchFood"] ||
+                elem === lis["DinnerGroup"] ||
+                elem === lis["DinnerFood"]
+            )}
+            renderItem={(select, index) => (
+              <List.Item>
+                <Checkbox
+                  style={{ width: "100%" }}
+                  key={index}
+                  checked={selected.includes(select["name"])}
+                  onChange={(e: CheckboxChangeEvent) => {
+                    if (e.target.checked)
+                      setSelected((prev) => [...prev, select["name"]]);
+                    else
+                      setSelected(
+                        selected.filter((elem) => elem !== select["name"])
+                      );
+                  }}
+                >
+                  {
+                    select[
+                      `label::${
+                        lang === "ENG"
+                          ? "English"
+                          : lang === "TJK"
+                          ? "Tajik"
+                          : "Uzbek"
+                      }`
+                    ]
+                  }
+                </Checkbox>
+              </List.Item>
+            )}
+          />
+        ))}
+        {hiddenGroups.map((group, index) => (
+          <List
+            key={index}
+            header={
+              <Title style={{ margin: 0 }} level={5}>
+                {
+                  group[
+                    `label::${
+                      lang === "ENG"
+                        ? "English"
+                        : lang === "TJK"
+                        ? "Tajik"
+                        : "Uzbek"
+                    }`
+                  ]
+                }
+              </Title>
+            }
+            bordered
+            dataSource={[
+              ...hiddenProducts.filter((product) =>
+                hiddenFoods.find(
+                  (food) =>
+                    food["name"] ===
+                      (product["Food"] ||
+                        product["LunchFood"] ||
+                        product["DinnerFood"]) &&
+                    (food["BreakfastGroup"] ||
+                      food["LunchGroup"] ||
+                      food["DinnerGroup"]) === group.name
+                )
+              ),
+            ]}
+            renderItem={(select, index) => (
+              <List.Item>
+                <Checkbox
+                  style={{ width: "100%" }}
+                  key={index}
+                  checked={selected.includes(select["name"])}
+                  onChange={(e: CheckboxChangeEvent) => {
+                    if (e.target.checked)
+                      setSelected((prev) => [...prev, select["name"]]);
+                    else
+                      setSelected(
+                        selected.filter((elem) => elem !== select["name"])
+                      );
+                  }}
+                >
+                  {
+                    select[
+                      `label::${
+                        lang === "ENG"
+                          ? "English"
+                          : lang === "TJK"
+                          ? "Tajik"
+                          : "Uzbek"
+                      }`
+                    ]
+                  }
+                </Checkbox>
+              </List.Item>
+            )}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const { Title } = Typography;
 export const BreakfastGroup = () => {
@@ -73,12 +334,15 @@ export const BreakfastGroup = () => {
   const questionforGroup = data["survey"].find(
     (elem) => elem.type === "select_multiple BreakfastGroup"
   ) as Type;
+
   const questionforFood = data["survey"].find(
     (elem) => elem.type === "select_multiple Food"
   ) as Type;
-  const questionforProduct = data["survey"].find(
-    (elem) => elem.type === "select_multiple Product"
-  ) as Type;
+
+  // const questionforProduct = data["survey"].find(
+  //   (elem) => elem.type === "select_multiple Product"
+  // ) as Type;
+
   const navigate = useNavigate();
 
   const [step, setStep] = useState<"group" | "food" | "product">("group");
@@ -93,7 +357,26 @@ export const BreakfastGroup = () => {
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "Food")
-        .filter((elem) => selectedGroup.includes(elem["BreakfastGroup"])),
+        .filter(
+          (elem) =>
+            selectedGroup.includes(elem["BreakfastGroup"]) &&
+            data["choices"]
+              .filter((elem2) => elem2.list_name === "Product")
+              .filter((elem1) => elem["name"] === elem1["Food"]).length > 1
+        ),
+    [selectedGroup]
+  );
+  const hiddenFoods = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "Food")
+        .filter(
+          (elem) =>
+            selectedGroup.includes(elem["BreakfastGroup"]) &&
+            data["choices"]
+              .filter((elem2) => elem2.list_name === "Product")
+              .filter((elem1) => elem["name"] === elem1["Food"]).length <= 1
+        ),
     [selectedGroup]
   );
   const products = useMemo(
@@ -103,7 +386,22 @@ export const BreakfastGroup = () => {
         .filter((elem) => selectedFood.includes(elem["Food"])),
     [selectedFood]
   );
-
+  const hiddenProducts = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "Product")
+        .filter((elem) =>
+          hiddenFoods.map((elem1) => elem1.name).includes(elem["Food"])
+        ),
+    [hiddenFoods]
+  );
+  const hiddenGroups = useMemo(
+    () =>
+      Array.from(
+        new Set(hiddenFoods.map((elem) => elem["BreakfastGroup"]))
+      ).map((elem) => breakfastGroup.find((elem1) => elem1["name"] === elem)),
+    [hiddenFoods]
+  );
   if (!question) return <></>;
 
   return (
@@ -139,7 +437,9 @@ export const BreakfastGroup = () => {
           />
         )}
         {step === "food" && (
-          <Step
+          <NewStep
+            allprevData={breakfastGroup}
+            prevData={selectedGroup}
             title={
               questionforFood[
                 `label::${
@@ -158,19 +458,24 @@ export const BreakfastGroup = () => {
           />
         )}
         {step === "product" && (
-          <Step
+          <LastStep
+            hiddenGroups={hiddenGroups}
+            hiddenFoods={hiddenFoods}
+            hiddenProducts={hiddenProducts}
+            allprevData={foods}
+            prevData={selectedFood}
             lang={lang}
-            title={
-              questionforProduct[
-                `label::${
-                  lang === "ENG"
-                    ? "English"
-                    : lang === "TJK"
-                    ? "Tajik"
-                    : "Uzbek"
-                }`
-              ]
-            }
+            // title={
+            //   questionforProduct[
+            //     `label::${
+            //       lang === "ENG"
+            //         ? "English"
+            //         : lang === "TJK"
+            //         ? "Tajik"
+            //         : "Uzbek"
+            //     }`
+            //   ]
+            // }
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}

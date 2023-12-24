@@ -1,6 +1,85 @@
 export const breakfastcategory = (data: string[]) => {
   const count = (text: string) => +data.includes(text);
   const group1 =
+    count("b_carrot") +
+    count("b_potatoes0") +
+    count("b_turnip0") +
+    count("b_other0") +
+    count("b_carrot1") +
+    count("b_potatoes1") +
+    count("b_turnip1") +
+    count("b_other1") +
+    count("b_other2") +
+    count("b_carrot2") +
+    count("b_wheat0") +
+    count("b_other3") +
+    count("b_noodles0") +
+    count("b_other4") +
+    count("b_potatoes2") +
+    count("b_rice0") +
+    count("b_other5") +
+    count("b_noodles1") +
+    count("b_other6") +
+    count("b_carrot3") +
+    count("b_potatoes3") +
+    count("b_lagmon0") +
+    count("b_other7") +
+    count("b_carrot4") +
+    count("b_potatoes4") +
+    count("b_beet0") +
+    count("b_other8") +
+    count("b_other9") +
+    count("b_carrot5") +
+    count("b_rice1") +
+    count("b_other10") +
+    count("b_carrot6") +
+    count("b_potatoes5") +
+    count("b_lagmon1") +
+    count("b_rice2") +
+    count("b_other11") +
+    count("b_chapoti0") +
+    count("b_fatir0") +
+    count("b_other12") +
+    count("b_noodles2") +
+    count("b_other13") +
+    count("b_other14") +
+    count("b_other15") +
+    count("b_carrot7") +
+    count("b_potatoes6") +
+    count("b_turnip2") +
+    count("b_beet1") +
+    count("b_other16") +
+    count("b_other17") +
+    count("b_other18") +
+    count("b_other19") +
+    count("b_potatoes7") +
+    count("b_other20") +
+    count("b_other21") +
+    count("b_potatoes8") +
+    count("b_rice3") +
+    count("b_buckwheat0") +
+    count("b_mung_bean0") +
+    count("b_other22") +
+    count("b_other23") +
+    count("b_carrot8") +
+    count("b_potatoes9") +
+    count("b_turnip3") +
+    count("b_rice4") +
+    count("b_buckwheat1") +
+    count("b_mung_bean1") +
+    count("b_other24") +
+    count("b_potatoes10") +
+    count("b_other25") +
+    count("b_other26") +
+    count("b_cake,_homemade_bread0") +
+    count("b_chapoti1") +
+    count("b_fatir1") +
+    count("b_sambusa0") +
+    count("b_other27") +
+    count("b_other28") +
+    count("b_qalama0") +
+    count("b_other29") +
+    count("b_corn0") +
     count("flour") +
     count("other") +
     count("other_shirchoy") +
@@ -26,14 +105,50 @@ export const breakfastcategory = (data: string[]) => {
     count("qalama") +
     count("other_qalama") +
     count("corn");
-  const group2 = count("peas");
+  const group2 =
+    count("b_peas0") +
+    count("b_beans0") +
+    count("b_peas1") +
+    count("b_lentils0") +
+    count("b_beans1") +
+    count("b_peas2") +
+    count("b_beans2") +
+    count("b_peas3") +
+    count("b_beans3") +
+    count("b_peas4") +
+    count("b_beans4") +
+    count("b_peas5") +
+    count("b_peas6") +
+    count("b_peas7") +
+    count("b_peas8") +
+    count("b_beans5") +
+    count("b_peas9") +
+    count("b_peas10") +
+    count("peas");
   const group3 =
+    count("b_donak0") +
+    count("b_almond0") +
+    count("b_pistachios0") +
+    count("b_groundnut0") +
     count("nut") +
     count("donak") +
     count("almond") +
     count("pistachios") +
     count("groundnut");
   const group4 =
+    count("b_chakka0") +
+    count("b_chakka1") +
+    count("b_chakka2") +
+    count("b_milk0") +
+    count("b_kefir0") +
+    count("b_chakka3") +
+    count("b_kefir1") +
+    count("b_cheese0") +
+    count("b_yogurt0") +
+    count("b_cream0") +
+    count("b_skimmed_milk_(cottage_cheese)0") +
+    count("b_jurgot0") +
+    count("b_qurut0") +
     count("milk") +
     count("milk_shirchoy") +
     count("milk_porridge") +
@@ -48,9 +163,133 @@ export const breakfastcategory = (data: string[]) => {
     count("skimmed_milk_(cottage_cheese)") +
     count("jurgot") +
     count("qurut");
-  const group5 = 0;
-  const group6 = count("egg") + count("egg_boiled_egg");
+  const group5 =
+    count("b_beef0") +
+    count("b_lamb_meat0") +
+    count("b_goat_meat0") +
+    count("b_beef1") +
+    count("b_lamb_meat1") +
+    count("b_goat_meat1") +
+    count("b_chicken_or_duck_meat0") +
+    count("b_beef2") +
+    count("b_lamb_meat2") +
+    count("b_goat_meat2") +
+    count("b_beef_tripe0") +
+    count("b_beef3") +
+    count("b_lamb_meat3") +
+    count("b_goat_meat3") +
+    count("b_beef4") +
+    count("b_lamb_meat4") +
+    count("b_goat_meat4") +
+    count("b_kallapocha0") +
+    count("b_beef5") +
+    count("b_lamb_meat5") +
+    count("b_goat_meat5") +
+    count("b_chicken_or_duck_meat1") +
+    count("b_beef6") +
+    count("b_lamb_meat6") +
+    count("b_goat_meat6") +
+    count("b_chicken_or_duck_meat2") +
+    count("b_beef7") +
+    count("b_lamb_meat7") +
+    count("b_goat_meat7") +
+    count("b_beef8") +
+    count("b_lamb_meat8") +
+    count("b_goat_meat8") +
+    count("b_chicken_or_duck_meat3") +
+    count("b_fish0") +
+    count("b_liver0") +
+    count("b_kidney0") +
+    count("b_heart0") +
+    count("b_beef9") +
+    count("b_lamb_meat9") +
+    count("b_goat_meat9") +
+    count("b_chicken_or_duck_meat4") +
+    count("b_meat_of_wild_birds0") +
+    count("b_rabbit_meat0") +
+    count("b_liver1") +
+    count("b_kidney1") +
+    count("b_heart1") +
+    count("b_beef10") +
+    count("b_lamb_meat10") +
+    count("b_goat_meat10") +
+    count("b_meat_of_wild_birds1") +
+    count("b_rabbit_meat1") +
+    count("b_liver2") +
+    count("b_kidney2") +
+    count("b_heart2") +
+    count("b_beef11") +
+    count("b_lamb_meat11") +
+    count("b_goat_meat11") +
+    count("b_meat_of_wild_birds2") +
+    count("b_rabbit_meat2") +
+    count("b_chicken_or_duck_meat5") +
+    count("b_liver3") +
+    count("b_kidney3") +
+    count("b_heart3") +
+    count("b_beef12") +
+    count("b_lamb_meat12") +
+    count("b_goat_meat12") +
+    count("b_chicken_or_duck_meat6") +
+    count("b_liver4") +
+    count("b_kidney4") +
+    count("b_heart4") +
+    count("b_beef13") +
+    count("b_lamb_meat13") +
+    count("b_goat_meat13") +
+    count("b_chicken_or_duck_meat7") +
+    count("b_liver5") +
+    count("b_kidney5") +
+    count("b_heart5") +
+    count("b_beef14") +
+    count("b_lamb_meat14") +
+    count("b_goat_meat14") +
+    count("b_chicken_or_duck_meat8") +
+    count("b_beef15") +
+    count("b_lamb_meat15") +
+    count("b_goat_meat15") +
+    count("b_beef16") +
+    count("b_lamb_meat16") +
+    count("b_goat_meat16") +
+    count("b_chicken_or_duck_meat9") +
+    count("b_beef17") +
+    count("b_lamb_meat17") +
+    count("b_goat_meat17");
+  const group6 =
+    count("b_egg0") +
+    count("b_egg1") +
+    count("b_egg2") +
+    count("egg") +
+    count("egg_boiled_egg");
   const group7 =
+    count("b_allium_rosenbachianum0") +
+    count("b_coriander0") +
+    count("b_basil0") +
+    count("b_spinach0") +
+    count("b_blindweed_(capsella_bursa_pastoris)_p") +
+    count("b_ginger_(jambil)0") +
+    count("b_allium_rosenbachianum1") +
+    count("b_green_onion_leaves0") +
+    count("b_green_garlic_leaf0") +
+    count("b_green_onion_leaves1") +
+    count("b_coriander1") +
+    count("b_dill0") +
+    count("b_basil1") +
+    count("b_green_garlic_leaf1") +
+    count("b_spinach1") +
+    count("b_blindweed_(capsella_bursa_pastoris)_q") +
+    count("b_ginger(jambil)1") +
+    count("b_allium_rosenbachianum2") +
+    count("b_green0") +
+    count("b_peppermint0") +
+    count("b_dill1") +
+    count("b_basil2") +
+    count("b_coriander2") +
+    count("b_ginger_(jambil)2") +
+    count("b_spinach2") +
+    count("b_blindweed_(capsella_bursa_pastoris)1") +
+    count("b_green_onion_leaves2") +
+    count("b_green_garlic_leaf2") +
     count("allium_rosenbachianum") +
     count("green") +
     count("green_cholob") +
@@ -64,14 +303,61 @@ export const breakfastcategory = (data: string[]) => {
     count("green_onion_leaves") +
     count("green_garlic_leaf");
   const group8 =
+    count("b_pumpkin0") +
+    count("b_tomatoes0") +
+    count("b_pumpkin1") +
+    count("b_pumpkin2") +
+    count("b_tomatoes1") +
+    count("b_dry_apricot0") +
+    count("b_melon0") +
+    count("b_watermelon0") +
     count("tomatoes") +
     count("pumpkin") +
     count("tomatoes_cholob") +
     count("dry_apricot") +
     count("melon") +
     count("watermelon");
-  const group9 = count("onion") + count("cucumber");
+  const group9 =
+    count("b_onion0") +
+    count("b_onion1") +
+    count("b_onion2") +
+    count("b_onion3") +
+    count("b_onion4") +
+    count("b_onion5") +
+    count("b_onion6") +
+    count("b_onion7") +
+    count("b_onion8") +
+    count("b_cabbage0") +
+    count("b_onion9") +
+    count("b_garlic0") +
+    count("b_onion10") +
+    count("b_onion11") +
+    count("b_onion12") +
+    count("b_cucumber0") +
+    count("b_onion13") +
+    count("b_onion14") +
+    count("b_eggplant0") +
+    count("b_onion15") +
+    count("b_onion16") +
+    count("b_onion17") +
+    count("b_onion18") +
+    count("b_onion19") +
+    count("b_onion20") +
+    count("b_onion21") +
+    count("b_onion22") +
+    count("b_cucumber1") +
+    count("onion") +
+    count("cucumber");
   const group10 =
+    count("b_raisins0") +
+    count("b_apple0") +
+    count("b_grapes0") +
+    count("b_banana0") +
+    count("b_tangerine0") +
+    count("b_orange0") +
+    count("b_pear0") +
+    count("b_pomegranate0") +
+    count("b_strawberry0") +
     count("raisins") +
     count("apple") +
     count("grapes") +
@@ -82,6 +368,15 @@ export const breakfastcategory = (data: string[]) => {
     count("pomegranate") +
     count("strawberry");
   const group11 =
+    count("b_wet_halva0") +
+    count("b_sesame_halva0") +
+    count("b_simalak0") +
+    count("b_nisholo0") +
+    count("b_jam0") +
+    count("b_chocolates0") +
+    count("b_cakes0") +
+    count("b_cookies0") +
+    count("b_Bun0") +
     count("sweets_(sugar_sand,_sugar_cubes)") +
     count("wet_halva") +
     count("sesame_halva") +
@@ -93,6 +388,53 @@ export const breakfastcategory = (data: string[]) => {
     count("cookies") +
     count("bun");
   const group12 =
+    count("b_oil0") +
+    count("b_oil1") +
+    count("b_oil2") +
+    count("b_oil3") +
+    count("b_oil4") +
+    count("b_oil5") +
+    count("b_hot_pepper0") +
+    count("b_pepper0") +
+    count("b_flavorings0") +
+    count("b_herbs0") +
+    count("b_oil6") +
+    count("b_fat0") +
+    count("b_buttock0") +
+    count("b_pepper1") +
+    count("b_oil7") +
+    count("b_fat1") +
+    count("b_pepper2") +
+    count("b_oil8") +
+    count("b_butter0") +
+    count("b_oil9") +
+    count("b_butter1") +
+    count("b_pepper3") +
+    count("b_oil10") +
+    count("b_oil11") +
+    count("b_fat2") +
+    count("b_buttock1") +
+    count("b_oil12") +
+    count("b_fat3") +
+    count("b_buttock2") +
+    count("b_oil13") +
+    count("b_fat4") +
+    count("b_buttock3") +
+    count("b_oil14") +
+    count("b_oil15") +
+    count("b_oil16") +
+    count("b_buttock4") +
+    count("b_oil17") +
+    count("b_oil18") +
+    count("b_butter2") +
+    count("b_oil19") +
+    count("b_oil20") +
+    count("b_oil21") +
+    count("b_butter3") +
+    count("b_iodized_salt0") +
+    count("b_hot_pepper1") +
+    count("b_pepper4") +
+    count("b_Zeroboy0") +
     count("butter") +
     count("butter_shirchoy") +
     count("oil") +
@@ -108,6 +450,10 @@ export const breakfastcategory = (data: string[]) => {
     count("pepper") +
     count("zeroboy");
   const group13 =
+    count("b_tea0") +
+    count("b_coffee0") +
+    count("b_compote0") +
+    count("b_juice0") +
     count("tea") +
     count("tea_tea") +
     count("coffee") +

@@ -45,7 +45,7 @@ export default function NavBar() {
   const [fio, setFio] = useState<string>(user.fio);
 
   const onClick = (e: any) => {
-    navigate("/rating");
+    navigate(`/${e.key}`);
     setCurrent(e.key);
   };
 
@@ -69,9 +69,9 @@ export default function NavBar() {
       display: "block",
       // height: token.sizeLG,
       left: "50%",
-      position: screens.md ? "static" : "absolute",
+      // position: screens.md ? "static" : "absolute",
       top: "50%",
-      transform: screens.md ? " " : "translate(-50%, -50%)",
+      // transform: screens.md ? " " : "translate(-50%, -50%)",
     },
     menu: {
       backgroundColor: "transparent",
@@ -109,6 +109,14 @@ export default function NavBar() {
       label: language["checkRating"][lang],
       key: "rating",
     },
+    {
+      label: language["category"][lang],
+      key: "category",
+    },
+    {
+      label: "Comments",
+      key: "comments",
+    },
   ];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -140,7 +148,7 @@ export default function NavBar() {
             <a
               style={{
                 ...styles.logo,
-                position: screens.md ? "static" : "absolute",
+                // position: screens.md ? "static" : "absolute",
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "row",
@@ -185,13 +193,13 @@ export default function NavBar() {
             </Dropdown>
             {!localStorage.getItem("token") ? (
               <>
-                {screens.md ? (
-                  <Button type="text" onClick={() => navigate("/sign-in")}>
-                    Log in
-                  </Button>
+                <Button type="text" onClick={() => navigate("/sign-in")}>
+                  Log in
+                </Button>
+                {/* {screens.md ? (
                 ) : (
                   ""
-                )}
+                )} */}
                 <Button onClick={() => navigate("/sign-up")} type="primary">
                   Sign up
                 </Button>

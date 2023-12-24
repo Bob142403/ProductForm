@@ -9,7 +9,12 @@ import {
   concatCategory,
 } from "../../provider/CategoryProvider";
 import { categoryApi } from "../../api/category";
-import { Step, Type } from "../breakfast-group/breakfast-group.component";
+import {
+  LastStep,
+  NewStep,
+  Step,
+  Type,
+} from "../breakfast-group/breakfast-group.component";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
 
@@ -24,9 +29,9 @@ export const DinnerGroup = () => {
   const questionforFood = data["survey"].find(
     (elem) => elem.type === "select_multiple DinnerFood"
   ) as Type;
-  const questionforProduct = data["survey"].find(
-    (elem) => elem.type === "select_multiple DinnerProduct"
-  ) as Type;
+  // const questionforProduct = data["survey"].find(
+  //   (elem) => elem.type === "select_multiple DinnerProduct"
+  // ) as Type;
   const navigate = useNavigate();
 
   const [step, setStep] = useState<"group" | "food" | "product">("group");
@@ -42,7 +47,28 @@ export const DinnerGroup = () => {
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "DinnerFood")
-        .filter((elem) => selectedGroup.includes(elem["DinnerGroup"])),
+        .filter(
+          (elem) =>
+            selectedGroup.includes(elem["DinnerGroup"]) &&
+            data["choices"]
+              .filter((elem2) => elem2.list_name === "DinnerProduct")
+              .filter((elem1) => elem["name"] === elem1["DinnerFood"]).length >
+              1
+        ),
+    [selectedGroup]
+  );
+  const hiddenFoods = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "DinnerFood")
+        .filter(
+          (elem) =>
+            selectedGroup.includes(elem["DinnerGroup"]) &&
+            data["choices"]
+              .filter((elem2) => elem2.list_name === "DinnerProduct")
+              .filter((elem1) => elem["name"] === elem1["DinnerFood"]).length <=
+              1
+        ),
     [selectedGroup]
   );
   const products = useMemo(
@@ -51,6 +77,24 @@ export const DinnerGroup = () => {
         .filter((elem) => elem.list_name === "DinnerProduct")
         .filter((elem) => selectedFood.includes(elem["DinnerFood"])),
     [selectedFood]
+  );
+
+  const hiddenProducts = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "DinnerProduct")
+        .filter((elem) =>
+          hiddenFoods.map((elem1) => elem1.name).includes(elem["DinnerFood"])
+        ),
+    [hiddenFoods]
+  );
+
+  const hiddenGroups = useMemo(
+    () =>
+      Array.from(new Set(hiddenFoods.map((elem) => elem["DinnerGroup"]))).map(
+        (elem) => group.find((elem1) => elem1["name"] === elem)
+      ),
+    [hiddenFoods]
   );
 
   if (!question) return <></>;
@@ -88,7 +132,9 @@ export const DinnerGroup = () => {
           />
         )}
         {step === "food" && (
-          <Step
+          <NewStep
+            allprevData={group}
+            prevData={selectedGroup}
             lang={lang}
             title={
               questionforFood[
@@ -107,19 +153,24 @@ export const DinnerGroup = () => {
           />
         )}
         {step === "product" && (
-          <Step
+          <LastStep
+            hiddenGroups={hiddenGroups}
+            hiddenFoods={hiddenFoods}
+            hiddenProducts={hiddenProducts}
+            allprevData={foods}
             lang={lang}
-            title={
-              questionforProduct[
-                `label::${
-                  lang === "ENG"
-                    ? "English"
-                    : lang === "TJK"
-                    ? "Tajik"
-                    : "Uzbek"
-                }`
-              ]
-            }
+            prevData={selectedFood}
+            // title={
+            //   questionforProduct[
+            //     `label::${
+            //       lang === "ENG"
+            //         ? "English"
+            //         : lang === "TJK"
+            //         ? "Tajik"
+            //         : "Uzbek"
+            //     }`
+            //   ]
+            // }
             list={products}
             selected={seletedProduct}
             setSelected={setSelectedProduct}

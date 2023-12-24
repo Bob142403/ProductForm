@@ -5,16 +5,19 @@ import { authApi } from "../../api/auth";
 import { Grid, theme } from "antd";
 
 import { UserOutlined } from "@ant-design/icons";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { GlobalOutlined } from "@ant-design/icons";
 import { language } from "../../lang/lang";
+import { ToolsContext } from "../../provider/ToolsProvider";
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export const SignIn = () => {
+  const { messageApi } = useContext(ToolsContext);
+  const [loading, setLoading] = useState<boolean>(false);
   const { lang, setLang } = useContext(NavBarContext);
   const { token } = useToken();
   const screens = useBreakpoint();
@@ -24,15 +27,23 @@ export const SignIn = () => {
     password: string;
     remember: string;
   }) => {
+    setLoading(true);
     try {
       const token = await authApi.login({
         username: value.username,
         password: value.password,
       });
-      localStorage.setItem("token", token.token);
-      localStorage.setItem("user", JSON.stringify(token.user.rows[0]));
+      const res = await token.json();
+      if (token.status >= 400) {
+        messageApi?.open({ type: "error", content: res });
+      }
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user.rows[0]));
       navigate("/");
-    } catch (err) {}
+    } catch (err) {
+      if (messageApi) messageApi.open({ type: "error", content: `${err}` });
+    }
+    setLoading(false);
   };
 
   const styles = {
@@ -171,7 +182,13 @@ export const SignIn = () => {
             </a>
           </Form.Item> */}
           <Form.Item style={{ marginBottom: "0px" }}>
-            <Button block={true} type="primary" htmlType="submit">
+            <Button
+              block={true}
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              disabled={loading}
+            >
               {/* Log in */}
               {language["signIn"][lang]}
             </Button>

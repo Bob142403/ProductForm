@@ -8,7 +8,7 @@ export const authApi = {
     await request(baseURL + "/login", {
       method: "POST",
       body: JSON.stringify(body),
-    }).then((res) => res.json()),
+    }),
   signUp: async (body: any) =>
     await request(baseURL + "/sign-up", {
       method: "POST",
