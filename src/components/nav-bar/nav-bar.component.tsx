@@ -114,7 +114,7 @@ export default function NavBar() {
       key: "category",
     },
     {
-      label: "Comments",
+      label: language["comments"][lang],
       key: "comments",
     },
   ];

@@ -220,8 +220,13 @@ export const language = {
     UZB: "Foydalanuvchining tug'ilgan yili ",
   },
   category: {
-    TJK: "Category",
+    TJK: "Категория",
     ENG: "Category",
-    UZB: "Category",
+    UZB: "Turkum",
+  },
+  comments: {
+    TJK: "Шарҳҳо",
+    ENG: "Comment",
+    UZB: "Izoh",
   },
 };
