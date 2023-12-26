@@ -191,6 +191,7 @@ export const LastStep = ({
   hiddenProducts: any[];
   hiddenGroups: any[];
 }) => {
+  console.log("list: ", list);
   return (
     <div className={styles.firstQuestion}>
       <Title level={5} style={{ marginTop: "0" }}>

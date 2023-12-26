@@ -229,4 +229,9 @@ export const language = {
     ENG: "Comment",
     UZB: "Izoh",
   },
+  profit: {
+    TJK: "Истеъмоли ғизоҳои гуногун яке аз роҳҳои беҳтарини мустаҳкам намудани иммунитет, яъне баланд бардоштани тобоварии бадани инсон ба таъсири вирусу микробҳо мебошад ва дар инкишофи ҷисмонию зеҳнии инсон мусоидат мекунад.",
+    ENG: "Eating a diversity of foods is one of the best ways to strengthen immunity, that is, to increase the resistance of the human body to viruses and improves the physical and mental development of a person.",
+    UZB: "Turli xil ovqatlar iste'mol qilish immunitetni mustahkamlash, ya'ni inson organizmining virus va mikroblar ta'siriga chidamliligini oshirishning eng yaxshi usullaridan biri bo'lib, insonning jismoniy va ruhiy rivojlanishiga yordam beradi.",
+  },
 };

@@ -30114,6 +30114,14 @@
     },
     {
       "list_name": "LunchFood",
+      "name": "l_pickle",
+      "label::English": "11. Rassolnik",
+      "label::Tajik": "11. Рассольник",
+      "label::Uzbek": "11. Rassolnik",
+      "LunchGroup": "l_first_meal"
+    },
+    {
+      "list_name": "LunchFood",
       "name": "l_plov",
       "label::English": "1. Plov",
       "label::Tajik": "1. Оши палов",
@@ -31824,6 +31832,127 @@
       "label::Tajik": "дигар",
       "label::Uzbek": "boshqa",
       "LunchFood": "l_damlama"
+    },
+
+    {
+      "list_name": "LunchProduct",
+      "name": "l_pumpkin0",
+      "label::English": "pumpkin",
+      "label::Tajik": "каду",
+      "label::Uzbek": "qovoq",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_carrot1",
+      "label::English": "carrot",
+      "label::Tajik": "сабзӣ",
+      "label::Uzbek": "sabzi",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_potatoes1",
+      "label::English": "potatoes",
+      "label::Tajik": "картошка",
+      "label::Uzbek": "kartoshka",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_turnip1",
+      "label::English": "turnip",
+      "label::Tajik": "шалғам",
+      "label::Uzbek": "sholgom",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_onion1",
+      "label::English": "onion",
+      "label::Tajik": "пиёз",
+      "label::Uzbek": "piyoz",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_beef1",
+      "label::English": "beef",
+      "label::Tajik": "гӯшти гов",
+      "label::Uzbek": "mol goshti",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_lamb_meat1",
+      "label::English": "lamb meat",
+      "label::Tajik": "гӯшти барра",
+      "label::Uzbek": "qozi goshti",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_goat_meat1",
+      "label::English": "goat meat",
+      "label::Tajik": "гӯшти буз",
+      "label::Uzbek": "echki goshti",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_chicken_or_duck_meat0",
+      "label::English": "chicken or duck meat",
+      "label::Tajik": "гӯшти мурғ ё мурғобӣ",
+      "label::Uzbek": "tovuq yoki ordak goshti",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_beans0",
+      "label::English": "beans",
+      "label::Tajik": "лӯбиё",
+      "label::Uzbek": "dukkaklilar",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_peas1",
+      "label::English": "peas",
+      "label::Tajik": "нахӯд",
+      "label::Uzbek": "noxat",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_lentils0",
+      "label::English": "lentils",
+      "label::Tajik": "наск",
+      "label::Uzbek": "yasmiq",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_oil0",
+      "label::English": "oil",
+      "label::Tajik": "равған",
+      "label::Uzbek": "moy",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_perlovka",
+      "label::English": "pearl barley",
+      "label::Tajik": "ҷави русӣ (перловка)",
+      "label::Uzbek": "pearl arpa",
+      "LunchFood": "l_pickle"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_cucumber0",
+      "label::English": "cucumber",
+      "label::Tajik": "бодиринг",
+      "label::Uzbek": "bodring",
+      "LunchFood": "l_pickle"
     },
     {
       "list_name": "LunchProduct",
@@ -34070,6 +34199,14 @@
       "label::English": "10. Kallapocha",
       "label::Tajik": "10. Каллапоча",
       "label::Uzbek": "10. Kallapocha",
+      "DinnerGroup": "d_first_meal"
+    },
+    {
+      "list_name": "DinnerFood",
+      "name": "d_pickle",
+      "label::English": "11. Rassolnik",
+      "label::Tajik": "11. Рассольник",
+      "label::Uzbek": "11. Rassolnik",
       "DinnerGroup": "d_first_meal"
     },
     {
@@ -37274,7 +37411,126 @@
       "label::Uzbek": "boshqa",
       "DinnerFood": "d_damlama"
     },
-
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_pumpkin0",
+      "label::English": "pumpkin",
+      "label::Tajik": "каду",
+      "label::Uzbek": "qovoq",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_carrot1",
+      "label::English": "carrot",
+      "label::Tajik": "сабзӣ",
+      "label::Uzbek": "sabzi",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_potatoes1",
+      "label::English": "potatoes",
+      "label::Tajik": "картошка",
+      "label::Uzbek": "kartoshka",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_turnip1",
+      "label::English": "turnip",
+      "label::Tajik": "шалғам",
+      "label::Uzbek": "sholgom",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_onion1",
+      "label::English": "onion",
+      "label::Tajik": "пиёз",
+      "label::Uzbek": "piyoz",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_beef1",
+      "label::English": "beef",
+      "label::Tajik": "гӯшти гов",
+      "label::Uzbek": "mol goshti",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_lamb_meat1",
+      "label::English": "lamb meat",
+      "label::Tajik": "гӯшти барра",
+      "label::Uzbek": "qozi goshti",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_goat_meat1",
+      "label::English": "goat meat",
+      "label::Tajik": "гӯшти буз",
+      "label::Uzbek": "echki goshti",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_chicken_or_duck_meat0",
+      "label::English": "chicken or duck meat",
+      "label::Tajik": "гӯшти мурғ ё мурғобӣ",
+      "label::Uzbek": "tovuq yoki ordak goshti",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_beans0",
+      "label::English": "beans",
+      "label::Tajik": "лӯбиё",
+      "label::Uzbek": "dukkaklilar",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_peas1",
+      "label::English": "peas",
+      "label::Tajik": "нахӯд",
+      "label::Uzbek": "noxat",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_lentils0",
+      "label::English": "lentils",
+      "label::Tajik": "наск",
+      "label::Uzbek": "yasmiq",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_oil0",
+      "label::English": "oil",
+      "label::Tajik": "равған",
+      "label::Uzbek": "moy",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_perlovka",
+      "label::English": "pearl barley",
+      "label::Tajik": "ҷави русӣ (перловка)",
+      "label::Uzbek": "pearl arpa",
+      "DinnerFood": "d_pickle"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_cucumber0",
+      "label::English": "cucumber",
+      "label::Tajik": "бодиринг",
+      "label::Uzbek": "bodring",
+      "DinnerFood": "d_pickle"
+    },
     {
       "list_name": "DinnerProduct",
       "name": "d_milk0",

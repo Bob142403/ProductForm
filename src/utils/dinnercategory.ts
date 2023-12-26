@@ -1,6 +1,7 @@
 export const dinnercategory = (data: string[]) => {
   const count = (text: string) => +data.includes(text);
   const group1 =
+    count("d_perlovka") +
     count("d_carrot") +
     count("d_potatoes0") +
     count("d_turnip0") +

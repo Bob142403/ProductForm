@@ -1,7 +1,7 @@
 import { Button, Divider, List } from "antd";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { CategoryContext } from "../../provider/CategoryProvider";
-import { helpMessage } from "../../utils/helpmessage";
+import { helpMessage, helpMessage2 } from "../../utils/helpmessage";
 import { categoryApi } from "../../api/category";
 
 import {
@@ -138,7 +138,7 @@ export const FinishPage = ({}: {}) => {
   };
 
   return (
-    <>
+    <div style={{ margin: "0 20px" }}>
       <List
         // header={<div>{language["categoryResult"][lang]}</div>}
         bordered
@@ -157,6 +157,21 @@ export const FinishPage = ({}: {}) => {
         bordered
         dataSource={helpMessage(category, lang).filter((elem) => elem)}
         renderItem={(item) => <List.Item> {item}</List.Item>}
+      />
+
+      <Divider
+        orientation="left"
+        style={{ wordBreak: "normal", whiteSpace: "normal", color: "#65a30d" }}
+      >
+        {language["profit"][lang]}
+      </Divider>
+
+      <List
+        bordered
+        dataSource={helpMessage2(category, lang)}
+        renderItem={(item) => (
+          <List.Item style={{ color: "#65a30d" }}> {item}</List.Item>
+        )}
       />
 
       <Line options={options} data={data} />
@@ -192,7 +207,7 @@ export const FinishPage = ({}: {}) => {
           {language["finish"][lang]}
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 /**
