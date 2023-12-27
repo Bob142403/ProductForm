@@ -33444,6 +33444,49 @@
     },
     {
       "list_name": "LunchProduct",
+      "name": "l_radish",
+      "label::English": "green radish",
+      "label::Tajik": "турб",
+      "label::Uzbek": "турб",
+      "LunchFood": "l_radish_salad"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_cabbage0",
+      "label::English": "cabbage",
+      "label::Tajik": "карам",
+      "label::Uzbek": "karam",
+      "LunchFood": "l_cabbage_salad"
+    },
+
+    {
+      "list_name": "LunchProduct",
+      "name": "l_carrot3",
+      "label::English": "carrot",
+      "label::Tajik": "сабзӣ",
+      "label::Uzbek": "sabzi",
+      "LunchFood": "l_carrots_salad"
+    },
+    {
+      "list_name": "LunchProduct",
+      "name": "l_cucumber0",
+      "label::English": "cucumber",
+      "label::Tajik": "бодиринг",
+      "label::Uzbek": "bodring",
+      "LunchFood": "l_salad_with_tomato-cucumber"
+    },
+
+    {
+      "list_name": "LunchProduct",
+      "name": "l_tomatoes0",
+      "label::English": "tomatoes",
+      "label::Tajik": "помидор",
+      "label::Uzbek": "pomidor",
+      "LunchFood": "l_salad_with_tomato-cucumber"
+    },
+
+    {
+      "list_name": "LunchProduct",
       "name": "l_milk0",
       "label::English": "milk",
       "label::Tajik": "шир",
@@ -37531,6 +37574,49 @@
       "label::Uzbek": "bodring",
       "DinnerFood": "d_pickle"
     },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_radish",
+      "label::English": "green radish",
+      "label::Tajik": "турб",
+      "label::Uzbek": "турб",
+      "DinnerFood": "d_radish_salad"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_cabbage0",
+      "label::English": "cabbage",
+      "label::Tajik": "карам",
+      "label::Uzbek": "karam",
+      "DinnerFood": "d_cabbage_salad"
+    },
+
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_carrot3",
+      "label::English": "carrot",
+      "label::Tajik": "сабзӣ",
+      "label::Uzbek": "sabzi",
+      "DinnerFood": "d_carrots_salad"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_cucumber0",
+      "label::English": "cucumber",
+      "label::Tajik": "бодиринг",
+      "label::Uzbek": "bodring",
+      "DinnerFood": "d_salad_with_tomato-cucumber"
+    },
+
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_tomatoes0",
+      "label::English": "tomatoes",
+      "label::Tajik": "помидор",
+      "label::Uzbek": "pomidor",
+      "DinnerFood": "d_salad_with_tomato-cucumber"
+    },
+
     {
       "list_name": "DinnerProduct",
       "name": "d_milk0",
