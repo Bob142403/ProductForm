@@ -169,6 +169,18 @@
       "name": "kushoniyon",
       "label::English": "Kushoniyon",
       "label::Tajik": "Кушониён"
+    },
+    {
+      "list_name": "district",
+      "name": "dushanbe",
+      "label::English": "Dushanbe",
+      "label::Tajik": "Душанбе"
+    },
+    {
+      "list_name": "district",
+      "name": "bokhtar",
+      "label::English": "Bokhtar",
+      "label::Tajik": "Бохтар"
     }
   ],
   "jamoat": [

@@ -15,6 +15,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
 import TextArea from "antd/es/input/TextArea";
