@@ -336,10 +336,11 @@ export const BreakfastGroup = () => {
     (elem) => elem.type === "select_multiple BreakfastGroup"
   ) as Type;
 
+  const question_b = data["survey"].find((elem) => elem.name === "group_xg79k42b");
   const questionforFood = data["survey"].find(
     (elem) => elem.type === "select_multiple Food"
   ) as Type;
-
+  const question_c = data["survey"].find((elem) => elem.name === "group_xg79k42c");
   // const questionforProduct = data["survey"].find(
   //   (elem) => elem.type === "select_multiple Product"
   // ) as Type;
@@ -403,7 +404,7 @@ export const BreakfastGroup = () => {
       ).map((elem) => breakfastGroup.find((elem1) => elem1["name"] === elem)),
     [hiddenFoods]
   );
-  if (!question) return <></>;
+  if (!question || !question_b || !question_c) return <></>;
 
   return (
     <div className={styles.container}>
@@ -412,11 +413,21 @@ export const BreakfastGroup = () => {
           orientation="left"
           style={{ wordBreak: "normal", whiteSpace: "normal" }}
         >
-          {question[
+          {step === 'group' ? 
+          (question[
             `label::${
               lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
             }`
-          ] || ""}
+          ] || "") : step === "food" ?   (question_b[
+            `label::${
+              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
+            }`
+          ] || "") :   (question_c[
+            `label::${
+              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
+            }`
+          ] || "")
+        }
         </Divider>
         {step === "group" && (
           <Step

@@ -26,9 +26,11 @@ export const DinnerGroup = () => {
   const questionforGroup = data["survey"].find(
     (elem) => elem.type === "select_multiple DinnerGroup"
   ) as Type;
+  const question_b = data["survey"].find((elem) => elem.name === "group_ub6cg02b");
   const questionforFood = data["survey"].find(
     (elem) => elem.type === "select_multiple DinnerFood"
   ) as Type;
+  const question_c = data["survey"].find((elem) => elem.name === "group_ub6cg02c");
   // const questionforProduct = data["survey"].find(
   //   (elem) => elem.type === "select_multiple DinnerProduct"
   // ) as Type;
@@ -96,8 +98,7 @@ export const DinnerGroup = () => {
       ),
     [hiddenFoods]
   );
-
-  if (!question) return <></>;
+  if (!question || !question_b || !question_c) return <></>;
 
   return (
     <div className={styles.container}>
@@ -106,11 +107,21 @@ export const DinnerGroup = () => {
           orientation="left"
           style={{ wordBreak: "normal", whiteSpace: "normal" }}
         >
-          {question[
+          {step === 'group' ? 
+          (question[
             `label::${
               lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
             }`
-          ] || ""}
+          ] || "") : step === "food" ?   (question_b[
+            `label::${
+              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
+            }`
+          ] || "") :   (question_c[
+            `label::${
+              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
+            }`
+          ] || "")
+        }
         </Divider>
         {step === "group" && (
           <Step

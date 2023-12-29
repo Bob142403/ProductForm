@@ -17353,9 +17353,25 @@
     {
       "type": "begin_group",
       "name": "group_xg79k42",
+      "label::English": "What group of food did you have in breakfast? (Last 24 hours)",
+      "label::Tajik": "Дар наҳорӣ кадом гуруҳи хӯрокаҳоро истеъмол кардед?",
+      "label::Uzbek": "Nonushtada nima guruh avqotlar yedingiz?",
+      "required": "false"
+    },
+    {
+      "type": "begin_group",
+      "name": "group_xg79k42b",
       "label::English": "What did you have in breakfast? (Last 24 hours)",
       "label::Tajik": "Дар наҳорӣ кадом хӯрокаҳоро истеъмол кардед?",
       "label::Uzbek": "Nonushtada nima yedingiz?",
+      "required": "false"
+    },
+    {
+      "type": "begin_group",
+      "name": "group_xg79k42c",
+      "label::English": "What products did you have in breakfast? (Last 24 hours)",
+      "label::Tajik": "Дар наҳорӣ кадом маҳсулотҳоро истеъмол кардед?",
+      "label::Uzbek": "Nonushtada nima mahsulotlar yedingiz?",
       "required": "false"
     },
     {
@@ -17494,9 +17510,25 @@
     {
       "type": "begin_group",
       "name": "group_ou0gs78",
+      "label::English": "What group of food did you have in lunch? (Last 24 hours)",
+      "label::Tajik": "Дар нисфирӯзӣ кадом гуруҳи хӯрокаҳоро истеъмол кардед?",
+      "label::Uzbek": "Tushlikda nima ovqatlar guruhi yedingiz?",
+      "required": "false"
+    },
+    {
+      "type": "begin_group",
+      "name": "group_ou0gs78b",
       "label::English": "What did you have in lunch? (Last 24 hours)",
       "label::Tajik": "Дар нисфирӯзӣ кадом хӯрокаҳоро истеъмол кардед?",
       "label::Uzbek": "Tushlikda nima yedingiz?",
+      "required": "false"
+    },
+    {
+      "type": "begin_group",
+      "name": "group_ou0gs78c",
+      "label::English": "What products did you have in lunch? (Last 24 hours)",
+      "label::Tajik": "Дар нисфирӯзӣ кадом маҳсулотҳоро истеъмол кардед?",
+      "label::Uzbek": "Tushlikda nima mahsulotlar yedingiz?",
       "required": "false"
     },
     {
@@ -17635,9 +17667,25 @@
     {
       "type": "begin_group",
       "name": "group_ub6cg02",
+      "label::English": "What group of food did you have in dinner? (Last 24 hours)",
+      "label::Tajik": "Дар бегоҳирӯзӣ кадом гуруҳи хӯрокаҳоро истеъмол кардед?",
+      "label::Uzbek": "Kechki ovqatda nima guruh ovqatlar yedingiz?",
+      "required": "false"
+    },
+    {
+      "type": "begin_group",
+      "name": "group_ub6cg02b",
       "label::English": "What did you have in dinner? (Last 24 hours)",
       "label::Tajik": "Дар бегоҳирӯзӣ кадом хӯрокаҳоро истеъмол кардед?",
       "label::Uzbek": "Kechki ovqatda nima yedingiz?",
+      "required": "false"
+    },
+    {
+      "type": "begin_group",
+      "name": "group_ub6cg02c",
+      "label::English": "What did you have in dinner? (Last 24 hours)",
+      "label::Tajik": "Дар бегоҳирӯзӣ кадом маҳсулотҳоро истеъмол кардед?",
+      "label::Uzbek": "Kechki ovqatda nima mahsulotlar yedingiz?",
       "required": "false"
     },
     {
