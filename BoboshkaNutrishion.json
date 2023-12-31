@@ -8118,9 +8118,9 @@
     {
       "list_name": "Food",
       "name": "bakers_bread",
-      "label::English": "2. Bakers bread",
-      "label::Tajik": "2. Нони нонвой",
-      "label::Uzbek": "2. Nonvoy non",
+      "label::English": "2. Bakers bread, khleb",
+      "label::Tajik": "2. Нони нонвой, хлеб",
+      "label::Uzbek": "2. Nonvoy non, khleb",
       "BreakfastGroup": "bread_products"
     },
     {
@@ -8872,9 +8872,9 @@
     {
       "list_name": "Product",
       "name": "bakers_bread",
-      "label::English": "bakers bread",
-      "label::Tajik": "нони нонвой",
-      "label::Uzbek": "novvoynon",
+      "label::English": "bakers bread, khleb",
+      "label::Tajik": "нони нонвой, хлеб",
+      "label::Uzbek": "novvoynon, khleb",
       "Food": "bakers_bread"
     },
     {
@@ -9196,6 +9196,14 @@
       "label::Tajik": "апелсин",
       "label::Uzbek": "apelsin",
       "Food": "orange"
+    },
+    {
+      "list_name": "Product",
+      "name": "kivi",
+      "label::English": "kivi",
+      "label::Tajik": "киви",
+      "label::Uzbek": "kivi",
+      "Food": "kivi"
     },
     {
       "list_name": "Product",
@@ -10099,9 +10107,9 @@
     {
       "list_name": "LunchFood",
       "name": "l_bakers_bread",
-      "label::English": "2. Bakers bread",
-      "label::Tajik": "2. Нони нонвой",
-      "label::Uzbek": "2. Nonvoy non",
+      "label::English": "2. Bakers bread, khleb",
+      "label::Tajik": "2. Нони нонвой, хлеб",
+      "label::Uzbek": "2. Nonvoy non, khleb",
       "LunchGroup": "l_bread_lunchproducts"
     },
     {
@@ -12925,9 +12933,9 @@
     {
       "list_name": "LunchProduct",
       "name": "l_bakers_bread0",
-      "label::English": "bakers bread",
-      "label::Tajik": "нони нонвой",
-      "label::Uzbek": "novvoynon",
+      "label::English": "bakers bread, khleb",
+      "label::Tajik": "нони нонвой, хлеб",
+      "label::Uzbek": "novvoynon, khleb",
       "LunchFood": "l_bakers_bread"
     },
     {
@@ -13388,6 +13396,14 @@
     },
     {
       "list_name": "LunchProduct",
+      "name": "l_kivi0",
+      "label::English": "kivi",
+      "label::Tajik": "киви",
+      "label::Uzbek": "kivi",
+      "LunchFood": "l_kivi"
+    },
+    {
+      "list_name": "LunchProduct",
       "name": "l_pear0",
       "label::English": "pear",
       "label::Tajik": "нок",
@@ -13833,9 +13849,9 @@
     {
       "list_name": "DinnerFood",
       "name": "d_bakers_bread",
-      "label::English": "2. Bakers bread",
-      "label::Tajik": "2. Нони нонвой",
-      "label::Uzbek": "2. Nonvoy non",
+      "label::English": "2. Bakers bread, khleb",
+      "label::Tajik": "2. Нони нонвой, хлеб",
+      "label::Uzbek": "2. Nonvoy non, khleb",
       "DinnerGroup": "d_bread_Dinnerproducts"
     },
     {
@@ -16659,9 +16675,9 @@
     {
       "list_name": "DinnerProduct",
       "name": "d_bakers_bread0",
-      "label::English": "bakers bread",
-      "label::Tajik": "нони нонвой",
-      "label::Uzbek": "novvoynon",
+      "label::English": "bakers bread, khleb",
+      "label::Tajik": "нони нонвой, хлеб",
+      "label::Uzbek": "novvoynon, khleb",
       "DinnerFood": "d_bakers_bread"
     },
     {
@@ -17122,6 +17138,14 @@
     },
     {
       "list_name": "DinnerProduct",
+      "name": "d_kivi0",
+      "label::English": "kivi",
+      "label::Tajik": "киви",
+      "label::Uzbek": "kivi",
+      "DinnerFood": "d_kivi"
+    },
+    {
+      "list_name": "DinnerProduct",
       "name": "d_pear0",
       "label::English": "pear",
       "label::Tajik": "нок",
@@ -17478,7 +17502,7 @@
       "label::Tajik": "Маҳсулоти наҳории гуруҳи 10",
       "label::Uzbek": "Nonushta Mahsulot 10 guruh",
       "required": "false",
-      "calculation": "if(selected(${Product},'raisins'), 1,0)+if(selected(${Product},'apple'), 1,0)+if(selected(${Product},'grapes'), 1,0)+if(selected(${Product},'banana'), 1,0)+if(selected(${Product},'tangerine'), 1,0)+if(selected(${Product},'orange'), 1,0)+if(selected(${Product},'pear'), 1,0)+if(selected(${Product},'pomegranate'), 1,0)+if(selected(${Product},'strawberry'), 1,0)"
+      "calculation": "if(selected(${Product},'raisins'), 1,0)+if(selected(${Product},'apple'), 1,0)+if(selected(${Product},'grapes'), 1,0)+if(selected(${Product},'banana'), 1,0)+if(selected(${Product},'tangerine'), 1,0)+if(selected(${Product},'orange'), 1,0)+if(selected(${Product},'kivi'), 1,0)+if(selected(${Product},'pear'), 1,0)+if(selected(${Product},'pomegranate'), 1,0)+if(selected(${Product},'strawberry'), 1,0)"
     },
     {
       "type": "calculate",
@@ -26615,9 +26639,9 @@
     {
       "list_name": "BreakfastGroup",
       "name": "b_first_meal",
-      "label::English": "2. First meal",
-      "label::Tajik": "2. Хӯроки якум",
-      "label::Uzbek": "2. Birinchi taom"
+      "label::English": "2. Breakfast and first meal",
+      "label::Tajik": "2. Наҳорӣ ва хӯроки якум",
+      "label::Uzbek": "2. Nonushta va birinchi ovqat"
     },
     {
       "list_name": "BreakfastGroup",
@@ -26735,9 +26759,9 @@
     {
       "list_name": "Food",
       "name": "bakers_bread",
-      "label::English": "2. Bakers bread",
-      "label::Tajik": "2. Нони нонвой",
-      "label::Uzbek": "2. Nonvoy non",
+      "label::English": "2. Bakers bread, khleb",
+      "label::Tajik": "2. Нони нонвой, хлеб",
+      "label::Uzbek": "2. Nonvoy non, khleb",
       "BreakfastGroup": "bread_products"
     },
     {
@@ -27487,9 +27511,9 @@
     {
       "list_name": "Product",
       "name": "bakers_bread",
-      "label::English": "bakers bread",
-      "label::Tajik": "нони нонвой",
-      "label::Uzbek": "novvoynon",
+      "label::English": "bakers bread, khleb",
+      "label::Tajik": "нони нонвой, хлеб",
+      "label::Uzbek": "novvoynon, khleb",
       "Food": "bakers_bread"
     },
     {
@@ -27811,6 +27835,14 @@
       "label::Tajik": "апелсин",
       "label::Uzbek": "apelsin",
       "Food": "orange"
+    },
+    {
+      "list_name": "Product",
+      "name": "kivi",
+      "label::English": "kivi",
+      "label::Tajik": "киви",
+      "label::Uzbek": "kivi",
+      "Food": "kivi"
     },
     {
       "list_name": "Product",
@@ -30455,9 +30487,9 @@
     {
       "list_name": "LunchFood",
       "name": "l_bakers_bread",
-      "label::English": "2. Bakers bread",
-      "label::Tajik": "2. Нони нонвой",
-      "label::Uzbek": "2. Nonvoy non",
+      "label::English": "2. Bakers bread, khleb",
+      "label::Tajik": "2. Нони нонвой, хлеб",
+      "label::Uzbek": "2. Nonvoy non, khleb",
       "LunchGroup": "l_bread_lunchproducts"
     },
     {
@@ -33676,9 +33708,9 @@
     {
       "list_name": "LunchProduct",
       "name": "l_bakers_bread0",
-      "label::English": "bakers bread",
-      "label::Tajik": "нони нонвой",
-      "label::Uzbek": "novvoynon",
+      "label::English": "bakers bread, khleb",
+      "label::Tajik": "нони нонвой, хлеб",
+      "label::Uzbek": "novvoynon, khleb",
       "LunchFood": "l_bakers_bread"
     },
     {
@@ -34139,6 +34171,14 @@
     },
     {
       "list_name": "LunchProduct",
+      "name": "l_kivi",
+      "label::English": "kivi",
+      "label::Tajik": "киви",
+      "label::Uzbek": "kivi",
+      "LunchFood": "l_kivi"
+    },
+    {
+      "list_name": "LunchProduct",
       "name": "l_pear0",
       "label::English": "pear",
       "label::Tajik": "нок",
@@ -34588,9 +34628,9 @@
     {
       "list_name": "DinnerFood",
       "name": "d_bakers_bread",
-      "label::English": "2. Bakers bread",
-      "label::Tajik": "2. Нони нонвой",
-      "label::Uzbek": "2. Nonvoy non",
+      "label::English": "2. Bakers bread, khleb",
+      "label::Tajik": "2. Нони нонвой, хлеб",
+      "label::Uzbek": "2. Nonvoy non, khleb",
       "DinnerGroup": "d_bread_Dinnerproducts"
     },
     {
@@ -37808,9 +37848,9 @@
     {
       "list_name": "DinnerProduct",
       "name": "d_bakers_bread0",
-      "label::English": "bakers bread",
-      "label::Tajik": "нони нонвой",
-      "label::Uzbek": "novvoynon",
+      "label::English": "bakers bread, khleb",
+      "label::Tajik": "нони нонвой, хлеб",
+      "label::Uzbek": "novvoynon, khleb",
       "DinnerFood": "d_bakers_bread"
     },
     {
@@ -38268,6 +38308,14 @@
       "label::Tajik": "апелсин",
       "label::Uzbek": "apelsin",
       "DinnerFood": "d_orange"
+    },
+    {
+      "list_name": "DinnerProduct",
+      "name": "d_kivi0",
+      "label::English": "kivi",
+      "label::Tajik": "киви",
+      "label::Uzbek": "kivi",
+      "DinnerFood": "d_kivi"
     },
     {
       "list_name": "DinnerProduct",
