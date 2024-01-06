@@ -105,7 +105,8 @@ export const lunchCategory = (data: string[]) => {
     count("l_donak0") +
     count("l_almond0") +
     count("l_pistachios0") +
-    count("l_groundnut0");
+    count("l_groundnut0") +
+    count("l_nut0");
 
   const group4 =
     count("l_chakka0") +
@@ -290,7 +291,8 @@ export const lunchCategory = (data: string[]) => {
     count("l_orange0") +
     count("l_pear0") +
     count("l_pomegranate0") +
-    count("l_strawberry0");
+    count("l_strawberry0") +
+    count("l_kivi");
   const group11 =
     count("l_wet_halva0") +
     count("l_sesame_halva0") +

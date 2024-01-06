@@ -9671,8 +9671,8 @@
     },
     {
       "list_name": "Product",
-      "name": "walnut",
-      "label::English": "walnut",
+      "name": "nut",
+      "label::English": "nut",
       "label::Tajik": "чормағз",
       "label::Uzbek": "yongoq",
       "Food": "walnuts"
@@ -13300,8 +13300,8 @@
     },
     {
       "list_name": "LunchProduct",
-      "name": "l_walnut0",
-      "label::English": "walnut",
+      "name": "l_nut0",
+      "label::English": "nut",
       "label::Tajik": "чормағз",
       "label::Uzbek": "yongoq",
       "LunchFood": "l_walnuts"
@@ -17042,8 +17042,8 @@
     },
     {
       "list_name": "DinnerProduct",
-      "name": "d_walnut0",
-      "label::English": "walnut",
+      "name": "d_nut0",
+      "label::English": "nut",
       "label::Tajik": "чормағз",
       "label::Uzbek": "yongoq",
       "DinnerFood": "d_walnuts"
@@ -27094,6 +27094,14 @@
     },
     {
       "list_name": "Food",
+      "name": "kivi",
+      "label::English": "17a. kivi",
+      "label::Tajik": "17a. киви",
+      "label::Uzbek": "17a. kivi",
+      "BreakfastGroup": "additions_and_nuts"
+    },
+    {
+      "list_name": "Food",
       "name": "pear",
       "label::English": "18. Pear",
       "label::Tajik": "18. Нок",
@@ -30031,8 +30039,8 @@
     },
     {
       "list_name": "Product",
-      "name": "walnut",
-      "label::English": "walnut",
+      "name": "nut",
+      "label::English": "nut",
       "label::Tajik": "чормағз",
       "label::Uzbek": "yongoq",
       "Food": "walnuts"
@@ -30890,6 +30898,14 @@
       "label::English": "17. Orange",
       "label::Tajik": "17. Апелсин",
       "label::Uzbek": "17. Apelsin",
+      "LunchGroup": "l_additions_and_nuts"
+    },
+    {
+      "list_name": "LunchFood",
+      "name": "l_kivi",
+      "label::English": "17a. kivi",
+      "label::Tajik": "17a. киви",
+      "label::Uzbek": "17a. kivi",
       "LunchGroup": "l_additions_and_nuts"
     },
     {
@@ -34075,8 +34091,8 @@
     },
     {
       "list_name": "LunchProduct",
-      "name": "l_walnut0",
-      "label::English": "walnut",
+      "name": "l_nut0",
+      "label::English": "nut",
       "label::Tajik": "чормағз",
       "label::Uzbek": "yongoq",
       "LunchFood": "l_walnuts"
@@ -35031,6 +35047,14 @@
       "label::English": "17. Orange",
       "label::Tajik": "17. Апелсин",
       "label::Uzbek": "17. Apelsin",
+      "DinnerGroup": "d_additions_and_nuts"
+    },
+    {
+      "list_name": "DinnerFood",
+      "name": "d_kivi",
+      "label::English": "17a. kivi",
+      "label::Tajik": "17a. киви",
+      "label::Uzbek": "17a. kivi",
       "DinnerGroup": "d_additions_and_nuts"
     },
     {
@@ -38215,8 +38239,8 @@
     },
     {
       "list_name": "DinnerProduct",
-      "name": "d_walnut0",
-      "label::English": "walnut",
+      "name": "d_nut0",
+      "label::English": "nut",
       "label::Tajik": "чормағз",
       "label::Uzbek": "yongoq",
       "DinnerFood": "d_walnuts"

@@ -105,7 +105,8 @@ export const dinnercategory = (data: string[]) => {
     count("d_donak0") +
     count("d_almond0") +
     count("d_pistachios0") +
-    count("d_groundnut0");
+    count("d_groundnut0") +
+    count("d_nut0");
 
   const group4 =
     count("d_chakka0") +
@@ -290,7 +291,8 @@ export const dinnercategory = (data: string[]) => {
     count("d_orange0") +
     count("d_pear0") +
     count("d_pomegranate0") +
-    count("d_strawberry0");
+    count("d_strawberry0") +
+    count("d_kivi0");
   const group11 =
     count("d_wet_halva0") +
     count("d_sesame_halva0") +

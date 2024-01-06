@@ -366,7 +366,8 @@ export const breakfastcategory = (data: string[]) => {
     count("orange") +
     count("pear") +
     count("pomegranate") +
-    count("strawberry");
+    count("strawberry") +
+    count("kivi");
   const group11 =
     count("b_wet_halva0") +
     count("b_sesame_halva0") +
