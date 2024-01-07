@@ -1,40 +1,28 @@
-import { Button, Divider } from "antd";
-import data from "../../../BoboshkaNutrishion.json";
-import styles from "./dinner-group.style.module.css";
 import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, Divider } from "antd";
+
 import { dinnercategory } from "../../utils/dinnercategory";
 import {
   CategoryContext,
   concatCategory,
+  defaultCategory,
 } from "../../provider/CategoryProvider";
 import { categoryApi } from "../../api/category";
-import {
-  LastStep,
-  NewStep,
-  Step,
-  Type,
-} from "../breakfast-group/breakfast-group.component";
+import { Type } from "../breakfast-group/breakfast-group.component";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
+import { GroupStep } from "../steps/group-step/group-step.component";
+import { FoodStep } from "../steps/food-step/food-step.component";
+import { ProductStep } from "../steps/product-step/product-step.component";
+
+import data from "../../../BoboshkaNutrishion.json";
+import styles from "./dinner-group.style.module.css";
 
 export const DinnerGroup = () => {
-  const { setCategory, category } = useContext(CategoryContext);
-  const { lang } = useContext(NavBarContext);
-
-  const question = data["survey"].find((elem) => elem.name === "group_ub6cg02");
-  const questionforGroup = data["survey"].find(
-    (elem) => elem.type === "select_multiple DinnerGroup"
-  ) as Type;
-  const question_b = data["survey"].find((elem) => elem.name === "group_ub6cg02b");
-  const questionforFood = data["survey"].find(
-    (elem) => elem.type === "select_multiple DinnerFood"
-  ) as Type;
-  const question_c = data["survey"].find((elem) => elem.name === "group_ub6cg02c");
-  // const questionforProduct = data["survey"].find(
-  //   (elem) => elem.type === "select_multiple DinnerProduct"
-  // ) as Type;
-  const navigate = useNavigate();
+  // ---------------------------------------------------------------------------
+  // Variables
+  // ---------------------------------------------------------------------------
 
   const [step, setStep] = useState<"group" | "food" | "product">("group");
   const [selectedGroup, setSelectedGroup] = useState<string[]>([]);
@@ -42,92 +30,189 @@ export const DinnerGroup = () => {
   const [seletedProduct, setSelectedProduct] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const group = data["choices"].filter(
+  const { setCategory, category } = useContext(CategoryContext);
+  const { lang } = useContext(NavBarContext);
+  const navigate = useNavigate();
+
+  // ---------------------------------------------------------------------------
+  // Questions
+  // ---------------------------------------------------------------------------
+
+  const questionForGroup = data["survey"].find(
+    (elem) => elem.name === "group_ub6cg02"
+  );
+  const questionForFood = data["survey"].find(
+    (elem) => elem.name === "group_ub6cg02b"
+  );
+  const questionForProduct = data["survey"].find(
+    (elem) => elem.name === "group_ub6cg02c"
+  );
+
+  // ---------------------------------------------------------------------------
+  // Titles
+  // ---------------------------------------------------------------------------
+
+  const groupTitle = data["survey"].find(
+    (elem) => elem.type === "select_multiple DinnerGroup"
+  ) as Type;
+  const foodTitle = data["survey"].find(
+    (elem) => elem.type === "select_multiple DinnerFood"
+  ) as Type;
+
+  // ---------------------------------------------------------------------------
+  // Group, Food, Product list
+  // ---------------------------------------------------------------------------
+
+  const dinnerGroupList = data["choices"].filter(
     (elem) => elem.list_name === "DinnerGroup"
   );
-  const foods = useMemo(
+  const dinnerFoodList = useMemo(
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "DinnerFood")
         .filter(
-          (elem) =>
-            selectedGroup.includes(elem["DinnerGroup"]) &&
+          (food) =>
+            selectedGroup.includes(food["DinnerGroup"]) &&
             data["choices"]
-              .filter((elem2) => elem2.list_name === "DinnerProduct")
-              .filter((elem1) => elem["name"] === elem1["DinnerFood"]).length >
-              1
+              .filter((elem) => elem.list_name === "DinnerProduct")
+              .filter((product) => food["name"] === product["DinnerFood"])
+              .length > 1
         ),
     [selectedGroup]
   );
+  const dinnerProductList = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "DinnerProduct")
+        .filter((product) => selectedFood.includes(product["DinnerFood"])),
+    [selectedFood]
+  );
+
+  // ---------------------------------------------------------------------------
+  // Hidden Food, Group, Product
+  // ---------------------------------------------------------------------------
+
   const hiddenFoods = useMemo(
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "DinnerFood")
         .filter(
-          (elem) =>
-            selectedGroup.includes(elem["DinnerGroup"]) &&
+          (food) =>
+            selectedGroup.includes(food["DinnerGroup"]) &&
             data["choices"]
-              .filter((elem2) => elem2.list_name === "DinnerProduct")
-              .filter((elem1) => elem["name"] === elem1["DinnerFood"]).length <=
-              1
+              .filter((elem) => elem.list_name === "DinnerProduct")
+              .filter((product) => food["name"] === product["DinnerFood"])
+              .length <= 1
         ),
     [selectedGroup]
-  );
-  const products = useMemo(
-    () =>
-      data["choices"]
-        .filter((elem) => elem.list_name === "DinnerProduct")
-        .filter((elem) => selectedFood.includes(elem["DinnerFood"])),
-    [selectedFood]
   );
 
   const hiddenProducts = useMemo(
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "DinnerProduct")
-        .filter((elem) =>
-          hiddenFoods.map((elem1) => elem1.name).includes(elem["DinnerFood"])
+        .filter((product) =>
+          hiddenFoods.map((food) => food.name).includes(product["DinnerFood"])
         ),
     [hiddenFoods]
   );
 
   const hiddenGroups = useMemo(
     () =>
-      Array.from(new Set(hiddenFoods.map((elem) => elem["DinnerGroup"]))).map(
-        (elem) => group.find((elem1) => elem1["name"] === elem)
+      Array.from(new Set(hiddenFoods.map((food) => food["DinnerGroup"]))).map(
+        (food) => dinnerGroupList.find((group) => group["name"] === food)
       ),
     [hiddenFoods]
   );
-  if (!question || !question_b || !question_c) return <></>;
 
+  // ---------------------------------------------------------------------------
+  // functions
+  // ---------------------------------------------------------------------------
+
+  function prevButtonClick() {
+    if (step === "food") setStep("group");
+    if (step === "product") {
+      setStep("food");
+    }
+  }
+
+  async function nextButtonClick() {
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    if (step === "group") setStep("food");
+    if (step === "food") setStep("product");
+    if (step === "product") {
+      setCategory(dinnercategory(seletedProduct));
+
+      setLoading(true);
+
+      await categoryApi
+        .insert({
+          ...concatCategory(category, dinnercategory(seletedProduct)),
+          userId: user.id,
+          date: Date.now(),
+        })
+        .then(() => {
+          setLoading(false);
+        });
+
+      navigate("/finish");
+      setCategory(defaultCategory);
+    }
+  }
+
+  if (!questionForGroup || !questionForFood || !questionForProduct)
+    return <></>;
+
+  // ---------------------------------------------------------------------------
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        {/* --------------------------------------------------------------------------- */}
+        {/* QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
         <Divider
           orientation="left"
           style={{ wordBreak: "normal", whiteSpace: "normal" }}
         >
-          {step === 'group' ? 
-          (question[
-            `label::${
-              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
-            }`
-          ] || "") : step === "food" ?   (question_b[
-            `label::${
-              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
-            }`
-          ] || "") :   (question_c[
-            `label::${
-              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
-            }`
-          ] || "")
-        }
+          {step === "group"
+            ? questionForGroup[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ] || ""
+            : step === "food"
+            ? questionForFood[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ] || ""
+            : questionForProduct[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ] || ""}
         </Divider>
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* GROUP QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
         {step === "group" && (
-          <Step
+          <GroupStep
             lang={lang}
-            title={
-              questionforGroup[
+            groupTitle={
+              groupTitle[
                 `label::${
                   lang === "ENG"
                     ? "English"
@@ -137,18 +222,23 @@ export const DinnerGroup = () => {
                 }`
               ]
             }
-            list={group}
-            selected={selectedGroup}
-            setSelected={setSelectedGroup}
+            groupList={dinnerGroupList}
+            selectedGroups={selectedGroup}
+            setSelectedGroups={setSelectedGroup}
           />
         )}
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* FOOD QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
+
         {step === "food" && (
-          <NewStep
-            allprevData={group}
-            prevData={selectedGroup}
+          <FoodStep
+            groupList={dinnerGroupList}
+            selectedGroups={selectedGroup}
             lang={lang}
-            title={
-              questionforFood[
+            foodTitle={
+              foodTitle[
                 `label::${
                   lang === "ENG"
                     ? "English"
@@ -158,75 +248,55 @@ export const DinnerGroup = () => {
                 }`
               ]
             }
-            list={foods}
-            selected={selectedFood}
-            setSelected={setSelectedFood}
+            foodList={dinnerFoodList}
+            selectedFoods={selectedFood}
+            setSelectedFoods={setSelectedFood}
           />
         )}
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* PRODUCT QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
+
         {step === "product" && (
-          <LastStep
+          <ProductStep
             hiddenGroups={hiddenGroups}
             hiddenFoods={hiddenFoods}
             hiddenProducts={hiddenProducts}
-            allprevData={foods}
+            foodList={dinnerFoodList}
+            selectedFoods={selectedFood}
             lang={lang}
-            prevData={selectedFood}
-            // title={
-            //   questionforProduct[
-            //     `label::${
-            //       lang === "ENG"
-            //         ? "English"
-            //         : lang === "TJK"
-            //         ? "Tajik"
-            //         : "Uzbek"
-            //     }`
-            //   ]
-            // }
-            list={products}
-            selected={seletedProduct}
-            setSelected={setSelectedProduct}
+            productList={dinnerProductList}
+            selectedProducts={seletedProduct}
+            setSelectedProducts={setSelectedProduct}
           />
         )}
+        {/* --------------------------------------------------------------------------- */}
+        {/* ACTIONS  */}
+        {/* --------------------------------------------------------------------------- */}
+
         <div className={styles.btnWrapper}>
+          {/* --------------------------------------------------------------------------- */}
+          {/* PREVIOS BUTTON */}
+          {/* --------------------------------------------------------------------------- */}
+
           <div>
             {step !== "group" && (
-              <Button
-                hidden
-                type="primary"
-                onClick={() => {
-                  if (step === "food") setStep("group");
-                  if (step === "product") {
-                    setStep("food");
-                  }
-                }}
-              >
+              <Button hidden type="primary" onClick={prevButtonClick}>
                 {language["previos"][lang]}
               </Button>
             )}
           </div>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* NEXT BUTTON */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Button
             type="primary"
             loading={loading}
             disabled={loading}
-            onClick={async () => {
-              const user = JSON.parse(localStorage.getItem("user") || "");
-              if (step === "group") setStep("food");
-              if (step === "food") setStep("product");
-              if (step === "product") {
-                setCategory(dinnercategory(seletedProduct));
-                setLoading(true);
-                await categoryApi
-                  .insert({
-                    ...concatCategory(category, dinnercategory(seletedProduct)),
-                    userId: user.id,
-                    date: Date.now(),
-                  })
-                  .then(() => {
-                    setLoading(false);
-                  });
-                navigate("/finish");
-              }
-            }}
+            onClick={nextButtonClick}
           >
             {language["next"][lang]}
           </Button>

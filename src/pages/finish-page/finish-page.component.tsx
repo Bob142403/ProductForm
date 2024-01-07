@@ -1,9 +1,7 @@
-import { Button, Divider, List } from "antd";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { CategoryContext } from "../../provider/CategoryProvider";
-import { helpMessage, helpMessage2 } from "../../utils/helpmessage";
-import { categoryApi } from "../../api/category";
-
+import { useNavigate } from "react-router-dom";
+import { Button, Divider, List } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,10 +14,14 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
+import {
+  CategoryContext,
+  defaultCategory,
+} from "../../provider/CategoryProvider";
+import { helpMessage, helpMessage2 } from "../../utils/helpmessage";
+import { categoryApi } from "../../api/category";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
-import TextArea from "antd/es/input/TextArea";
-import { useNavigate } from "react-router-dom";
 import { feedbackApi } from "../../api/feedback";
 
 ChartJS.register(
@@ -33,10 +35,15 @@ ChartJS.register(
 );
 
 export const FinishPage = ({}: {}) => {
-  const { category } = useContext(CategoryContext);
-  const { lang } = useContext(NavBarContext);
+  // ---------------------------------------------------------------------------
+  // variables
+  // ---------------------------------------------------------------------------
+
   const [allCategory, setAllCategory] = useState<any[]>([]);
   const [feedback, setFeedback] = useState<string>("");
+
+  const { category, setCategory } = useContext(CategoryContext);
+  const { lang } = useContext(NavBarContext);
   const navigate = useNavigate();
 
   let index = 1;
@@ -50,18 +57,6 @@ export const FinishPage = ({}: {}) => {
         : `${index} гуруҳ натиҷаси:  ${value}`
     );
     index++;
-  }
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
-  async function getCategory() {
-    const user = JSON.parse(localStorage.getItem("user") || "");
-
-    const data = (await categoryApi.getCategory(user.id)).rows;
-
-    setAllCategory(data);
   }
 
   const data = useMemo(
@@ -84,10 +79,6 @@ export const FinishPage = ({}: {}) => {
               +!!elem.group8 +
               +!!elem.group9 +
               +!!elem.group10
-            //  +
-            // +!!elem.group11 +
-            // +!!elem.group12 +
-            // +!!elem.group13
           ),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -106,10 +97,8 @@ export const FinishPage = ({}: {}) => {
       tooltip: {
         callbacks: {
           label: function (context: any) {
-            const { label } = context;
-            const hoveredDay: any = allCategory.find(
-              (elem: any) => new Date(+elem.date).toLocaleDateString() === label
-            );
+            const { dataIndex } = context;
+            const hoveredDay: any = allCategory[dataIndex];
             return [
               `Group 1:  ${hoveredDay.group1}`,
               `Group 2:  ${hoveredDay.group2}`,
@@ -121,9 +110,6 @@ export const FinishPage = ({}: {}) => {
               `Group 8:  ${hoveredDay.group8}`,
               `Group 9:  ${hoveredDay.group9}`,
               `Group 10:  ${hoveredDay.group10}`,
-              // `Group 11:  ${hoveredDay.group11}`,
-              // `Group 12:  ${hoveredDay.group12}`,
-              // `Group 13:  ${hoveredDay.group13}`,
             ];
           },
         },
@@ -138,14 +124,53 @@ export const FinishPage = ({}: {}) => {
     },
   };
 
+  // ---------------------------------------------------------------------------
+  // effects
+  // ---------------------------------------------------------------------------
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // function
+  // ---------------------------------------------------------------------------
+
+  async function getCategory() {
+    const user = JSON.parse(localStorage.getItem("user") || "");
+
+    const data = (await categoryApi.getCategory(user.id)).rows;
+
+    setAllCategory(data);
+  }
+
+  async function finishButtonClick() {
+    await feedbackApi.insert({
+      formId: allCategory[allCategory.length - 1].id,
+      feedback,
+    });
+
+    navigate("/");
+
+    setCategory(defaultCategory);
+  }
+
+  // ---------------------------------------------------------------------------=
   return (
-    <div style={{ margin: "0 20px" }}>
+    <div style={{ margin: "0 20px", paddingTop: "20px" }}>
+      {/* --------------------------------------------------------------------------- */}
+      {/* CATEGORY RESULT */}
+      {/* --------------------------------------------------------------------------- */}
+
       <List
-        // header={<div>{language["categoryResult"][lang]}</div>}
         bordered
         dataSource={resultCategory}
         renderItem={(item) => <List.Item> {item}</List.Item>}
       />
+
+      {/* --------------------------------------------------------------------------- */}
+      {/* HOW TO DO ALL CATEGORY TITLE */}
+      {/* --------------------------------------------------------------------------- */}
 
       <Divider
         orientation="left"
@@ -154,11 +179,19 @@ export const FinishPage = ({}: {}) => {
         {language["howTodoAllCategory"][lang]}
       </Divider>
 
+      {/* --------------------------------------------------------------------------- */}
+      {/* HOW TO DO ALL CATEGORY LIST */}
+      {/* --------------------------------------------------------------------------- */}
+
       <List
         bordered
         dataSource={helpMessage(category, lang).filter((elem) => elem)}
         renderItem={(item) => <List.Item> {item}</List.Item>}
       />
+
+      {/* --------------------------------------------------------------------------- */}
+      {/* PROFIT TITLE */}
+      {/* --------------------------------------------------------------------------- */}
 
       <Divider
         orientation="left"
@@ -166,6 +199,10 @@ export const FinishPage = ({}: {}) => {
       >
         {language["profit"][lang]}
       </Divider>
+
+      {/* --------------------------------------------------------------------------- */}
+      {/* PROFIT LIST */}
+      {/* --------------------------------------------------------------------------- */}
 
       <List
         bordered
@@ -175,9 +212,22 @@ export const FinishPage = ({}: {}) => {
         )}
       />
 
+      {/* --------------------------------------------------------------------------- */}
+      {/* CHART */}
+      {/* --------------------------------------------------------------------------- */}
+
       <Line options={options} data={data} />
 
+      {/* --------------------------------------------------------------------------- */}
+      {/* FEEDBACK TITLE */}
+      {/* --------------------------------------------------------------------------- */}
+
       <Divider orientation="left">{language["feedback"][lang]}</Divider>
+
+      {/* --------------------------------------------------------------------------- */}
+      {/* FEEDBACK TEXT */}
+      {/* --------------------------------------------------------------------------- */}
+
       <div style={{ marginInline: "20px" }}>
         <TextArea
           rows={4}
@@ -187,6 +237,11 @@ export const FinishPage = ({}: {}) => {
           onChange={(event) => setFeedback(event.target.value)}
         />
       </div>
+
+      {/* --------------------------------------------------------------------------- */}
+      {/* ACTIONS */}
+      {/* --------------------------------------------------------------------------- */}
+
       <div
         style={{
           display: "flex",
@@ -195,22 +250,14 @@ export const FinishPage = ({}: {}) => {
           marginBlock: "20px",
         }}
       >
-        <Button
-          type="primary"
-          onClick={async () => {
-            feedbackApi.insert({
-              formId: allCategory[allCategory.length - 1].id,
-              feedback,
-            });
-            navigate("/");
-          }}
-        >
+        {/* --------------------------------------------------------------------------- */}
+        {/* FINISH BUTTON */}
+        {/* --------------------------------------------------------------------------- */}
+
+        <Button type="primary" onClick={finishButtonClick}>
           {language["finish"][lang]}
         </Button>
       </div>
     </div>
   );
 };
-/**
- * Прогресс дар истеъмоли гуногинии гизо
- */

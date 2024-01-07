@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -18,10 +18,10 @@ import {
   SettingOutlined,
   RollbackOutlined,
   MailOutlined,
+  MenuOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
-import { MenuOutlined, UserOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
 
@@ -30,11 +30,9 @@ const { useBreakpoint } = Grid;
 const { Title } = Typography;
 
 export default function NavBar() {
-  const { token } = useToken();
-  const screens = useBreakpoint();
-  const { lang, setLang } = useContext(NavBarContext);
-
-  const navigate = useNavigate();
+  // ---------------------------------------------------------------------------
+  // variables
+  // ---------------------------------------------------------------------------
 
   const user = JSON.parse(localStorage.getItem("user") || "{}") as any;
 
@@ -43,11 +41,76 @@ export default function NavBar() {
   const [email, setEmail] = useState<string>(user.email);
   const [telephone, setTelephone] = useState<string>(user.telephone);
   const [fio, setFio] = useState<string>(user.fio);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { token } = useToken();
+  const screens = useBreakpoint();
+  const { lang, setLang } = useContext(NavBarContext);
+  const navigate = useNavigate();
+
+  const langSelectItems: MenuProps["items"] = [
+    {
+      key: "ENG",
+      label: <>English</>,
+    },
+    {
+      key: "TJK",
+      label: <>Tajik</>,
+    },
+    {
+      key: "UZB",
+      label: <>Uzbek</>,
+    },
+  ];
+
+  const menuItems: MenuProps["items"] = [
+    {
+      disabled: !localStorage.getItem("user"),
+      label: language["checkRating"][lang],
+      key: "rating",
+    },
+    {
+      label: language["category"][lang],
+      key: "category",
+    },
+    {
+      label: language["comments"][lang],
+      key: "comments",
+    },
+  ];
+
+  // ---------------------------------------------------------------------------
+  // function
+  // ---------------------------------------------------------------------------
 
   const onClick = (e: any) => {
     navigate(`/${e.key}`);
     setCurrent(e.key);
   };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = async () => {
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ ...user, username, email, fio, telephone })
+    );
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setUsername(user.username);
+    setEmail(user.email);
+    setFio(user.fio);
+    setTelephone(user.telephone);
+    setIsModalOpen(false);
+  };
+
+  // ---------------------------------------------------------------------------
+  // styles
+  // ---------------------------------------------------------------------------
 
   const styles = {
     container: {
@@ -88,58 +151,7 @@ export default function NavBar() {
     },
   };
 
-  const items: MenuProps["items"] = [
-    {
-      key: "ENG",
-      label: <>English</>,
-    },
-    {
-      key: "TJK",
-      label: <>Tajik</>,
-    },
-    {
-      key: "UZB",
-      label: <>Uzbek</>,
-    },
-  ];
-
-  const menuItems: MenuProps["items"] = [
-    {
-      disabled: !localStorage.getItem("user"),
-      label: language["checkRating"][lang],
-      key: "rating",
-    },
-    {
-      label: language["category"][lang],
-      key: "category",
-    },
-    {
-      label: language["comments"][lang],
-      key: "comments",
-    },
-  ];
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = async () => {
-    localStorage.setItem(
-      "user",
-      JSON.stringify({ ...user, username, email, fio, telephone })
-    );
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setUsername(user.username);
-    setEmail(user.email);
-    setFio(user.fio);
-    setTelephone(user.telephone);
-    setIsModalOpen(false);
-  };
-
+  // ---------------------------------------------------------------------------
   return (
     <>
       <nav style={{ ...styles.header, position: "relative" }}>
@@ -160,12 +172,25 @@ export default function NavBar() {
                 setCurrent("");
               }}
             >
+              {/* --------------------------------------------------------------------------- */}
+              {/* LOGO */}
+              {/* --------------------------------------------------------------------------- */}
+
               <img src="/logo.png" style={{ width: "20px", height: "20px" }} />
+
+              {/* --------------------------------------------------------------------------- */}
+              {/* TITLE */}
+              {/* --------------------------------------------------------------------------- */}
 
               <Title style={{ margin: "0", wordBreak: "normal" }} level={5}>
                 DietFH
               </Title>
             </a>
+
+            {/* --------------------------------------------------------------------------- */}
+            {/* MENU */}
+            {/* --------------------------------------------------------------------------- */}
+
             <Menu
               style={styles.menu}
               mode="horizontal"
@@ -178,9 +203,13 @@ export default function NavBar() {
             />
           </div>
           <Space>
+            {/* --------------------------------------------------------------------------- */}
+            {/* LANGUAGE SELECT */}
+            {/* --------------------------------------------------------------------------- */}
+
             <Dropdown
               menu={{
-                items,
+                items: langSelectItems,
                 selectable: true,
                 defaultSelectedKeys: [lang],
                 onClick: (elem) => {
@@ -191,56 +220,76 @@ export default function NavBar() {
             >
               <Button type="text" icon={<GlobalOutlined />}></Button>
             </Dropdown>
+
+            {/* --------------------------------------------------------------------------- */}
+            {/* ACTIONS */}
+            {/* --------------------------------------------------------------------------- */}
+
             {!localStorage.getItem("token") ? (
               <>
+                {/* --------------------------------------------------------------------------- */}
+                {/* LOG IN */}
+                {/* --------------------------------------------------------------------------- */}
+
                 <Button type="text" onClick={() => navigate("/sign-in")}>
                   Log in
                 </Button>
-                {/* {screens.md ? (
-                ) : (
-                  ""
-                )} */}
+
+                {/* --------------------------------------------------------------------------- */}
+                {/* SIGN UP */}
+                {/* --------------------------------------------------------------------------- */}
+
                 <Button onClick={() => navigate("/sign-up")} type="primary">
                   Sign up
                 </Button>
               </>
             ) : (
-              <Dropdown
-                menu={{
-                  items: [
-                    {
-                      key: "user",
-                      label: <>Change User Settings</>,
-                      icon: <SettingOutlined />,
+              <>
+                {/* --------------------------------------------------------------------------- */}
+                {/* USER SETTINGS */}
+                {/* --------------------------------------------------------------------------- */}
+
+                <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        key: "user",
+                        label: <>Change User Settings</>,
+                        icon: <SettingOutlined />,
+                      },
+                      {
+                        key: "out",
+                        label: <>Log out</>,
+                        icon: <RollbackOutlined />,
+                      },
+                    ],
+                    onClick: (elem) => {
+                      if (elem.key === "out") {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        navigate("/");
+                      }
+                      if (elem.key === "user") {
+                        showModal();
+                      }
                     },
-                    {
-                      key: "out",
-                      label: <>Log out</>,
-                      icon: <RollbackOutlined />,
-                    },
-                  ],
-                  onClick: (elem) => {
-                    if (elem.key === "out") {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("user");
-                      navigate("/");
-                    }
-                    if (elem.key === "user") {
-                      showModal();
-                    }
-                  },
-                }}
-                placement="bottomRight"
-              >
-                <Avatar
-                  style={{ backgroundColor: "#87d068" }}
-                  icon={<UserOutlined />}
-                />
-              </Dropdown>
+                  }}
+                  placement="bottomRight"
+                >
+                  <Avatar
+                    style={{ backgroundColor: "#87d068" }}
+                    icon={<UserOutlined />}
+                  />
+                </Dropdown>
+              </>
             )}
           </Space>
         </div>
       </nav>
+      {/* --------------------------------------------------------------------------- */}
+      {/* USER SETTINGS MODAL */}
+      {/* --------------------------------------------------------------------------- */}
+
       <Modal
         title="User settings"
         closeIcon={false}
@@ -250,6 +299,10 @@ export default function NavBar() {
         onCancel={handleCancel}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {/* --------------------------------------------------------------------------- */}
+          {/* USER NAME */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Input
             required
             prefix={<UserOutlined />}
@@ -257,18 +310,33 @@ export default function NavBar() {
             onChange={(event) => setUsername(event.target.value)}
             placeholder="UserName"
           />
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* EMAIL */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Input
             prefix={<MailOutlined />}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="Email"
           />
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* FIO */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Input
             required
             placeholder="FIO"
             value={fio}
             onChange={(event) => setFio(event.target.value)}
           />
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* TELEPHONE NUMBER */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Input
             placeholder="Telephone Number"
             value={telephone}

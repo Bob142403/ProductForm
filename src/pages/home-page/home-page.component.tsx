@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+
 import NavBar from "../../components/nav-bar/nav-bar.component";
 // import { theme } from "antd";
 
@@ -8,7 +9,12 @@ export const HomePage = () => {
   // } = theme.useToken();
   return (
     <>
-      <NavBar></NavBar>
+      {/* --------------------------------------------------------------------------- */}
+      {/* NAVBAR  */}
+      {/* --------------------------------------------------------------------------- */}
+
+      <NavBar />
+
       {/* <Content style={{ padding: "0" }}> */}
       <div
         style={{

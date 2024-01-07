@@ -1,26 +1,54 @@
-import { Button, Typography } from "antd";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./home-intro.style.module.css";
+import { Button, Typography } from "antd";
+
 import { language } from "../../lang/lang";
-import { useContext } from "react";
 import { NavBarContext } from "../../provider/NavBarProvider";
+import {
+  CategoryContext,
+  defaultCategory,
+} from "../../provider/CategoryProvider";
+
+import styles from "./home-intro.style.module.css";
 
 const { Title } = Typography;
 
-export const HomeIntro = ({}: {}) => {
+export const HomeIntro = () => {
+  // ---------------------------------------------------------------------------
+  // variables
+  // ---------------------------------------------------------------------------
+
   const navigate = useNavigate();
   const { lang } = useContext(NavBarContext);
+  const { setCategory } = useContext(CategoryContext);
+  // ---------------------------------------------------------------------------
+  // effects
+  // ---------------------------------------------------------------------------
+
+  useEffect(() => {
+    setCategory(defaultCategory);
+  }, []);
+
+  // ---------------------------------------------------------------------------
   return (
     <div className={styles.container}>
       <div className={styles.backgroudImage}></div>
 
-      <Title level={3} >{language["homeIntroAlert"][lang]}</Title>
+      {/* --------------------------------------------------------------------------- */}
+      {/* TITLE */}
+      {/* --------------------------------------------------------------------------- */}
+
+      <Title level={3}>{language["homeIntroAlert"][lang]}</Title>
+
+      {/* --------------------------------------------------------------------------- */}
+      {/* START BUTTON */}
+      {/* --------------------------------------------------------------------------- */}
+
       <Button
         onClick={() => navigate("/breakfast")}
         size="large"
         type="primary"
         disabled={!localStorage.getItem("user")}
-        // style={{ backgroundColor: "transparent" }}
       >
         {language["startBtn"][lang]}
       </Button>

@@ -1,3 +1,7 @@
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   Button,
   Dropdown,
@@ -6,20 +10,17 @@ import {
   InputNumber,
   Select,
   Typography,
+  Grid,
+  theme,
 } from "antd";
-import { GlobalOutlined } from "@ant-design/icons";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-// import styles from "./sign-up.style.module.css";
-import data from "../../../BoboshkaNutrishion.json";
+import { GlobalOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
+
 import { authApi } from "../../api/auth";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Grid, theme } from "antd";
 import { NavBarContext } from "../../provider/NavBarProvider";
-import { language } from "../../lang/lang";
 import { ToolsContext } from "../../provider/ToolsProvider";
+import { language } from "../../lang/lang";
+
+import data from "../../../BoboshkaNutrishion.json";
 
 dayjs.extend(customParseFormat);
 
@@ -30,8 +31,10 @@ const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export const SignUp = () => {
-  const { messageApi } = useContext(ToolsContext);
-  const { lang, setLang } = useContext(NavBarContext);
+  // ---------------------------------------------------------------------------
+  // variables
+  // ---------------------------------------------------------------------------
+
   const [loading, setLoading] = useState<boolean>(false);
   const { token } = useToken();
   const screens = useBreakpoint();
@@ -52,6 +55,14 @@ export const SignUp = () => {
   const [fio, setFio] = useState<string>("");
   const [fromWho, setFromWho] = useState<string>("");
 
+  const { messageApi } = useContext(ToolsContext);
+  const { lang, setLang } = useContext(NavBarContext);
+  const navigate = useNavigate();
+
+  // ---------------------------------------------------------------------------
+  // function
+  // ---------------------------------------------------------------------------
+
   async function onSubmit(value: any) {
     const data = {
       username,
@@ -66,12 +77,15 @@ export const SignUp = () => {
       jamoat,
       fromWho,
     };
+
     if (districtOtherVisible) data.district = value["other_district"];
     // if (jamoatOtherVisible) data.jamoat = value["other_jamoat"];
     // if (villageOtherVisible) data.village = value["other_village"];
     setLoading(true);
+
     try {
       const message = await authApi.signUp(data);
+
       if (messageApi) messageApi.open({ type: "success", content: message });
 
       navigate("/sign-in");
@@ -81,7 +95,9 @@ export const SignUp = () => {
     setLoading(false);
   }
 
-  const navigate = useNavigate();
+  // ---------------------------------------------------------------------------
+  // styles
+  // ---------------------------------------------------------------------------
 
   const styles = {
     container: {
@@ -118,9 +134,14 @@ export const SignUp = () => {
     },
   };
 
+  // ---------------------------------------------------------------------------
   return (
     <section style={{ ...styles.section, position: "relative" }}>
       <div style={{ position: "absolute", right: "10px", top: "10px" }}>
+        {/* --------------------------------------------------------------------------- */}
+        {/* LANGUAGE SELECT */}
+        {/* --------------------------------------------------------------------------- */}
+
         <Dropdown
           menu={{
             items: [
@@ -148,8 +169,13 @@ export const SignUp = () => {
           <Button type="text" icon={<GlobalOutlined />}></Button>
         </Dropdown>
       </div>
+
       <div style={styles.container}>
         <div style={{ ...styles.header, textAlign: "center" }}>
+          {/* --------------------------------------------------------------------------- */}
+          {/* ICON */}
+          {/* --------------------------------------------------------------------------- */}
+
           <svg
             width="33"
             height="32"
@@ -166,17 +192,26 @@ export const SignUp = () => {
             <path d="M4.92505 17.6H14.525V27.2001H4.92505V17.6Z" fill="white" />
           </svg>
 
+          {/* --------------------------------------------------------------------------- */}
+          {/* TITLE */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Title style={styles.title}>{language["signUp"][lang]}</Title>
-          {/* <Text style={styles.text}>
-            Join us! Create an account to get started.
-          </Text> */}
         </div>
+        {/* --------------------------------------------------------------------------- */}
+        {/* SIGN UP FORM */}
+        {/* --------------------------------------------------------------------------- */}
+
         <Form
           name="normal_signup"
           onFinish={onSubmit}
           layout="vertical"
           requiredMark="optional"
         >
+          {/* --------------------------------------------------------------------------- */}
+          {/* USERNAME */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item
             name="username"
             rules={[
@@ -193,6 +228,11 @@ export const SignUp = () => {
               placeholder={language["usr"][lang]}
             />
           </Form.Item>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* EMAIL */}
+          {/* --------------------------------------------------------------------------- */}
+
           {/* <Form.Item name="email">
             <Input
               prefix={<MailOutlined />}
@@ -201,6 +241,11 @@ export const SignUp = () => {
               placeholder="Email"
             />
           </Form.Item> */}
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* PASSWORD */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item
             name="password"
             // extra="Password needs to be at least 8 characters."
@@ -219,6 +264,11 @@ export const SignUp = () => {
               onChange={(event) => setPassword(event.target.value)}
             />
           </Form.Item>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* FIO */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item
             name="fio"
             rules={[
@@ -234,6 +284,10 @@ export const SignUp = () => {
               onChange={(event) => setFio(event.target.value)}
             />
           </Form.Item>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* DISTRICT */}
+          {/* --------------------------------------------------------------------------- */}
 
           <Form.Item
             name="district"
@@ -259,6 +313,10 @@ export const SignUp = () => {
             </Select>
           </Form.Item>
 
+          {/* --------------------------------------------------------------------------- */}
+          {/* OTHER DISTRICT */}
+          {/* --------------------------------------------------------------------------- */}
+
           {districtOtherVisible && (
             <Form.Item
               name="other_district"
@@ -272,6 +330,10 @@ export const SignUp = () => {
               <Input placeholder={language["od"][lang]} />
             </Form.Item>
           )}
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* JAMOAT */}
+          {/* --------------------------------------------------------------------------- */}
 
           {/* <Form.Item
             hidden={districtOtherVisible}
@@ -300,9 +362,13 @@ export const SignUp = () => {
                 <Option key="other">{language["other"][lang]}</Option>
               )}
             </Select>
-          </Form.Item>
+          </Form.Item>*/}
 
-          {jamoatOtherVisible && (
+          {/* --------------------------------------------------------------------------- */}
+          {/* OTHER JAMOAT */}
+          {/* --------------------------------------------------------------------------- */}
+
+          {/*  {jamoatOtherVisible && (
             <Form.Item
               name="other_jamoat"
               rules={[
@@ -314,9 +380,13 @@ export const SignUp = () => {
             >
               <Input placeholder="Other Jamoat" />
             </Form.Item>
-          )}
+          )} */}
 
-          <Form.Item
+          {/* --------------------------------------------------------------------------- */}
+          {/* VILLAGE */}
+          {/* --------------------------------------------------------------------------- */}
+
+          {/* <Form.Item
             hidden={districtOtherVisible || jamoatOtherVisible}
             name="village"
             // rules={[{ required: true, message: "Please select village!" }]}
@@ -340,9 +410,13 @@ export const SignUp = () => {
               {data["village"].filter((elem) => elem.jamoat === jamoat).length >
                 0 && <Option key="other">{language["other"][lang]}</Option>}
             </Select>
-          </Form.Item>
+          </Form.Item> */}
 
-          {villageOtherVisible && (
+          {/* --------------------------------------------------------------------------- */}
+          {/* OTHER VILLAGE */}
+          {/* --------------------------------------------------------------------------- */}
+
+          {/* {villageOtherVisible && (
             <Form.Item
               name="other_village"
               rules={[
@@ -355,6 +429,10 @@ export const SignUp = () => {
               <Input placeholder="Other Village" />
             </Form.Item>
           )} */}
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* BIRTHDAY */}
+          {/* --------------------------------------------------------------------------- */}
 
           <Form.Item
             name="birthDay"
@@ -380,6 +458,11 @@ export const SignUp = () => {
               max={2023}
             />
           </Form.Item>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* TELEPHONE */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item
             name="telephone"
             rules={[
@@ -395,6 +478,11 @@ export const SignUp = () => {
               onChange={(event) => setTelephone(event.target.value)}
             />
           </Form.Item>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* GENDER */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item
             name="gender"
             rules={[{ required: true, message: language["reqg"][lang] }]}
@@ -408,6 +496,11 @@ export const SignUp = () => {
               <Option value="female">{language["female"][lang]}</Option>
             </Select>
           </Form.Item>
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* FROM WHO ? */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item name="fromWho">
             <Input
               value={fromWho}
@@ -416,7 +509,15 @@ export const SignUp = () => {
             />
           </Form.Item>
 
+          {/* --------------------------------------------------------------------------- */}
+          {/* ACTIONS */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item style={{ marginBottom: "0px" }}>
+            {/* --------------------------------------------------------------------------- */}
+            {/* SIGN UP BUTTON */}
+            {/* --------------------------------------------------------------------------- */}
+
             <Button
               block
               type="primary"
@@ -426,8 +527,14 @@ export const SignUp = () => {
             >
               {language["signUp"][lang]}
             </Button>
+
             <div style={{ ...styles.signup, textAlign: "center" }}>
-              <Text style={styles.text}>{language["lass"][lang]}</Text>{" "}
+              <Text style={styles.text}>{language["lass"][lang]}</Text>
+
+              {/* --------------------------------------------------------------------------- */}
+              {/* SIGN IN LINK */}
+              {/* --------------------------------------------------------------------------- */}
+
               <Link href="" onClick={() => navigate("/sign-in")}>
                 {language["signIn"][lang]}
               </Link>

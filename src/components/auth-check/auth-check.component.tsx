@@ -1,11 +1,10 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-// const url = "http://localhost:5000/";
-
 export const AuthCheck = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     (async () => {
       // try {

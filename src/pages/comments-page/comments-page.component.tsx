@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { commentApi } from "../../api/comment";
 import { Avatar, Skeleton, Typography } from "antd";
-// import { UserOutlined } from "@ant-design/icons";
-// import TextArea from "antd/es/input/TextArea";
+
+import { commentApi } from "../../api/comment";
+import styles from "./comments-page.style.module.css";
 
 const { Text, Paragraph } = Typography;
 
@@ -31,7 +31,6 @@ const { Text, Paragraph } = Typography;
 export const CommentsPage = () => {
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  //   const [comment, setComment] = useState<string>("");
 
   useEffect(() => {
     getComments();
@@ -45,7 +44,7 @@ export const CommentsPage = () => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", padding: "20px" }}>
+    <div className={styles.wrapper}>
       {loading ? (
         <>
           <Skeleton active avatar paragraph={{ rows: 3 }} />
@@ -56,44 +55,18 @@ export const CommentsPage = () => {
       ) : (
         <>
           {comments.map((comment) => (
-            <div
-              key={comment.id}
-              style={{ display: "flex", flexDirection: "column", gap: "2px" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Avatar
-                  style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}
-                >
-                  {comment.username[0]}
-                </Avatar>
-
+            <div key={comment.id} className={styles.comment}>
+              <div className={styles.commentInfo}>
+                <Avatar className={styles.avatar}>{comment.username[0]}</Avatar>
                 <Text>{comment.username}</Text>
-
-                {/* <Text type="secondary">
-              {messageDate(new Date(+comment.createat))}
-            </Text> */}
               </div>
-              <Paragraph style={{ marginLeft: "42px" }}>
+              <Paragraph style={{ marginLeft: "40px" }}>
                 {comment.message}
               </Paragraph>
             </div>
           ))}
         </>
       )}
-      {/* <TextArea
-        placeholder="Comment"
-        value={comment}
-        onChange={(elem) => setComment(elem.target.value)}
-        autoSize
-        style={{ marginBottom: "20px" }}
-      /> */}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { Category } from "../types/Category";
 
-const defaultCategory = {
+export const defaultCategory = {
   group1: 0,
   group2: 0,
   group3: 0,

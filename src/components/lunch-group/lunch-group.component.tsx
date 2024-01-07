@@ -5,120 +5,189 @@ import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { lunchCategory } from "../../utils/lunchcategory";
 import { CategoryContext } from "../../provider/CategoryProvider";
-import {
-  LastStep,
-  NewStep,
-  Step,
-  Type,
-} from "../breakfast-group/breakfast-group.component";
+import { Type } from "../breakfast-group/breakfast-group.component";
 import { NavBarContext } from "../../provider/NavBarProvider";
 import { language } from "../../lang/lang";
+import { GroupStep } from "../steps/group-step/group-step.component";
+import { FoodStep } from "../steps/food-step/food-step.component";
+import { ProductStep } from "../steps/product-step/product-step.component";
 
 export const LunchGroup = () => {
+  // ---------------------------------------------------------------------------
+  // Variables
+  // ---------------------------------------------------------------------------
+  const [step, setStep] = useState<"group" | "food" | "product">("group");
+  const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+  const [selectedFoods, setSelectedFoods] = useState<string[]>([]);
+  const [seletedProducts, setSelectedProduct] = useState<string[]>([]);
+
   const { setCategory } = useContext(CategoryContext);
   const { lang } = useContext(NavBarContext);
-
-  const question = data["survey"].find((elem) => elem.name === "group_ou0gs78");
-  const questionforGroup = data["survey"].find(
-    (elem) => elem.type === "select_multiple LunchGroup"
-  ) as Type;
-  const question_b = data["survey"].find((elem) => elem.name === "group_ou0gs78b");
-  const questionforFood = data["survey"].find(
-    (elem) => elem.type === "select_multiple LunchFood"
-  ) as Type;
-  const question_c = data["survey"].find((elem) => elem.name === "group_ou0gs78c");
-
   const navigate = useNavigate();
 
-  const [step, setStep] = useState<"group" | "food" | "product">("group");
-  const [selectedGroup, setSelectedGroup] = useState<string[]>([]);
-  const [selectedFood, setSelectedFood] = useState<string[]>([]);
-  const [seletedProduct, setSelectedProduct] = useState<string[]>([]);
+  // ---------------------------------------------------------------------------
+  // Questions
+  // ---------------------------------------------------------------------------
 
-  const group = data["choices"].filter(
+  const questionForGroup = data["survey"].find(
+    (elem) => elem.name === "group_ou0gs78"
+  );
+  const questionForFood = data["survey"].find(
+    (elem) => elem.name === "group_ou0gs78b"
+  );
+  const questionForProduct = data["survey"].find(
+    (elem) => elem.name === "group_ou0gs78c"
+  );
+
+  // ---------------------------------------------------------------------------
+  // Titles
+  // ---------------------------------------------------------------------------
+
+  const groupTitle = data["survey"].find(
+    (elem) => elem.type === "select_multiple LunchGroup"
+  ) as Type;
+  const foodTitle = data["survey"].find(
+    (elem) => elem.type === "select_multiple LunchFood"
+  ) as Type;
+
+  // ---------------------------------------------------------------------------
+  // Food, Group, Product list
+  // ---------------------------------------------------------------------------
+
+  const lunchGroupList = data["choices"].filter(
     (elem) => elem.list_name === "LunchGroup"
   );
-  const foods = useMemo(
+  const lunchFoodList = useMemo(
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "LunchFood")
         .filter(
-          (elem) =>
-            selectedGroup.includes(elem["LunchGroup"]) &&
+          (food) =>
+            selectedGroups.includes(food["LunchGroup"]) &&
             data["choices"]
-              .filter((elem2) => elem2.list_name === "LunchProduct")
-              .filter((elem1) => elem["name"] === elem1["LunchFood"]).length > 1
+              .filter((elem) => elem.list_name === "LunchProduct")
+              .filter((product) => food["name"] === product["LunchFood"])
+              .length > 1
         ),
-    [selectedGroup]
+    [selectedGroups]
   );
+  const lunchProductList = useMemo(
+    () =>
+      data["choices"]
+        .filter((elem) => elem.list_name === "LunchProduct")
+        .filter((product) => selectedFoods.includes(product["LunchFood"])),
+    [selectedFoods]
+  );
+
+  // ---------------------------------------------------------------------------
+  // Hidden Food, Group, Product
+  // ---------------------------------------------------------------------------
+
   const hiddenFoods = useMemo(
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "LunchFood")
         .filter(
-          (elem) =>
-            selectedGroup.includes(elem["LunchGroup"]) &&
+          (food) =>
+            selectedGroups.includes(food["LunchGroup"]) &&
             data["choices"]
-              .filter((elem2) => elem2.list_name === "LunchProduct")
-              .filter((elem1) => elem["name"] === elem1["LunchFood"]).length <=
-              1
+              .filter((elem) => elem.list_name === "LunchProduct")
+              .filter((product) => food["name"] === product["LunchFood"])
+              .length <= 1
         ),
-    [selectedGroup]
-  );
-  const products = useMemo(
-    () =>
-      data["choices"]
-        .filter((elem) => elem.list_name === "LunchProduct")
-        .filter((elem) => selectedFood.includes(elem["LunchFood"])),
-    [selectedFood]
+    [selectedGroups]
   );
   const hiddenProducts = useMemo(
     () =>
       data["choices"]
         .filter((elem) => elem.list_name === "LunchProduct")
-        .filter((elem) =>
-          hiddenFoods.map((elem1) => elem1.name).includes(elem["LunchFood"])
+        .filter((product) =>
+          hiddenFoods.map((food) => food.name).includes(product["LunchFood"])
         ),
     [hiddenFoods]
   );
-
   const hiddenGroups = useMemo(
     () =>
-      Array.from(new Set(hiddenFoods.map((elem) => elem["LunchGroup"]))).map(
-        (elem) => group.find((elem1) => elem1["name"] === elem)
+      Array.from(new Set(hiddenFoods.map((food) => food["LunchGroup"]))).map(
+        (food) => lunchGroupList.find((group) => group["name"] === food)
       ),
     [hiddenFoods]
   );
 
-  if (!question || !question_b || !question_c) return <></>;
+  // ---------------------------------------------------------------------------
+  // functions
+  // ---------------------------------------------------------------------------
 
+  function prevButtonClick() {
+    if (step === "food") setStep("group");
+    if (step === "product") {
+      setStep("food");
+    }
+  }
+
+  function nextButtonClick() {
+    if (step === "group") setStep("food");
+    if (step === "food") setStep("product");
+    if (step === "product") {
+      setCategory(lunchCategory(seletedProducts));
+      navigate("/dinner");
+    }
+  }
+
+  if (!questionForGroup || !questionForFood || !questionForProduct)
+    return <></>;
+
+  // ---------------------------------------------------------------------------
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        {/* --------------------------------------------------------------------------- */}
+        {/* QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
+
         <Divider
           orientation="left"
           style={{ wordBreak: "normal", whiteSpace: "normal" }}
         >
-          {step === 'group' ? 
-          (question[
-            `label::${
-              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
-            }`
-          ] || "") : step === "food" ?   (question_b[
-            `label::${
-              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
-            }`
-          ] || "") :   (question_c[
-            `label::${
-              lang === "ENG" ? "English" : lang === "TJK" ? "Tajik" : "Uzbek"
-            }`
-          ] || "")
-        }
+          {step === "group"
+            ? questionForGroup[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ] || ""
+            : step === "food"
+            ? questionForFood[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ] || ""
+            : questionForProduct[
+                `label::${
+                  lang === "ENG"
+                    ? "English"
+                    : lang === "TJK"
+                    ? "Tajik"
+                    : "Uzbek"
+                }`
+              ] || ""}
         </Divider>
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* GROUP QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
+
         {step === "group" && (
-          <Step
-            title={
-              questionforGroup[
+          <GroupStep
+            groupTitle={
+              groupTitle[
                 `label::${
                   lang === "ENG"
                     ? "English"
@@ -129,17 +198,22 @@ export const LunchGroup = () => {
               ]
             }
             lang={lang}
-            list={group}
-            selected={selectedGroup}
-            setSelected={setSelectedGroup}
+            groupList={lunchGroupList}
+            selectedGroups={selectedGroups}
+            setSelectedGroups={setSelectedGroups}
           />
         )}
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* FOOD QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
+
         {step === "food" && (
-          <NewStep
-            allprevData={group}
-            prevData={selectedGroup}
-            title={
-              questionforFood[
+          <FoodStep
+            groupList={lunchGroupList}
+            selectedGroups={selectedGroups}
+            foodTitle={
+              foodTitle[
                 `label::${
                   lang === "ENG"
                     ? "English"
@@ -150,63 +224,52 @@ export const LunchGroup = () => {
               ]
             }
             lang={lang}
-            list={foods}
-            selected={selectedFood}
-            setSelected={setSelectedFood}
+            foodList={lunchFoodList}
+            selectedFoods={selectedFoods}
+            setSelectedFoods={setSelectedFoods}
           />
         )}
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* PRODUCT QUESTIONS */}
+        {/* --------------------------------------------------------------------------- */}
+
         {step === "product" && (
-          <LastStep
+          <ProductStep
             hiddenGroups={hiddenGroups}
             hiddenFoods={hiddenFoods}
             hiddenProducts={hiddenProducts}
-            allprevData={foods}
-            prevData={selectedFood}
+            foodList={lunchFoodList}
+            selectedFoods={selectedFoods}
             lang={lang}
-            // title={
-            //   questionforProduct[
-            //     `label::${
-            //       lang === "ENG"
-            //         ? "English"
-            //         : lang === "TJK"
-            //         ? "Tajik"
-            //         : "Uzbek"
-            //     }`
-            //   ]
-            // }
-            list={products}
-            selected={seletedProduct}
-            setSelected={setSelectedProduct}
+            productList={lunchProductList}
+            selectedProducts={seletedProducts}
+            setSelectedProducts={setSelectedProduct}
           />
         )}
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* ACTIONS  */}
+        {/* --------------------------------------------------------------------------- */}
+
         <div className={styles.btnWrapper}>
+          {/* --------------------------------------------------------------------------- */}
+          {/* PREVIOS BUTTON */}
+          {/* --------------------------------------------------------------------------- */}
+
           <div>
             {step !== "group" && (
-              <Button
-                hidden
-                type="primary"
-                onClick={() => {
-                  if (step === "food") setStep("group");
-                  if (step === "product") {
-                    setStep("food");
-                  }
-                }}
-              >
+              <Button hidden type="primary" onClick={prevButtonClick}>
                 {language["previos"][lang]}
               </Button>
             )}
           </div>
-          <Button
-            type="primary"
-            onClick={() => {
-              if (step === "group") setStep("food");
-              if (step === "food") setStep("product");
-              if (step === "product") {
-                setCategory(lunchCategory(seletedProduct));
-                navigate("/dinner");
-              }
-            }}
-          >
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* NEXT BUTTON */}
+          {/* --------------------------------------------------------------------------- */}
+
+          <Button type="primary" onClick={nextButtonClick}>
             {language["next"][lang]}
           </Button>
         </div>

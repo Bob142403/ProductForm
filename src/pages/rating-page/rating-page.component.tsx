@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { categoryApi } from "../../api/category";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -12,6 +11,10 @@ import {
   Tooltip,
 } from "chart.js";
 
+import { categoryApi } from "../../api/category";
+
+import styles from "./rating-page.style.module.css";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -23,18 +26,11 @@ ChartJS.register(
 );
 
 export const RatingPage = () => {
+  // ---------------------------------------------------------------------------
+  // variables
+  // ---------------------------------------------------------------------------
+
   const [allCategory, setAllCategory] = useState([]);
-
-  useEffect(() => {
-    getCategory();
-  }, []);
-
-  async function getCategory() {
-    const user = JSON.parse(localStorage.getItem("user") || "");
-    const data = (await categoryApi.getCategory(user.id)).rows;
-
-    setAllCategory(data);
-  }
 
   const data = useMemo(
     () => ({
@@ -55,10 +51,11 @@ export const RatingPage = () => {
               +!!elem.group7 +
               +!!elem.group8 +
               +!!elem.group9 +
-              +!!elem.group10 +
-              +!!elem.group11 +
-              +!!elem.group12 +
-              +!!elem.group13
+              +!!elem.group10
+            // +
+            // +!!elem.group11 +
+            // +!!elem.group12 +
+            // +!!elem.group13
           ),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -78,10 +75,9 @@ export const RatingPage = () => {
         displayColors: false,
         callbacks: {
           label: function (context: any) {
-            const { label } = context;
-            const hoveredDay: any = allCategory.find(
-              (elem: any) => new Date(+elem.date).toLocaleDateString() === label
-            );
+            const { dataIndex } = context;
+            const hoveredDay: any = allCategory[dataIndex];
+
             return [
               `Group 1:  ${hoveredDay.group1}`,
               `Group 2:  ${hoveredDay.group2}`,
@@ -109,8 +105,28 @@ export const RatingPage = () => {
       },
     },
   };
+
+  // ---------------------------------------------------------------------------
+  // effects
+  // ---------------------------------------------------------------------------
+
+  useEffect(() => {
+    getCategory();
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // function
+  // ---------------------------------------------------------------------------
+
+  async function getCategory() {
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    const data = (await categoryApi.getCategory(user.id)).rows;
+
+    setAllCategory(data);
+  }
+  // ---------------------------------------------------------------------------
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "10px" }}>
+    <div className={styles.wrapper}>
       <Line options={options} data={data} />
     </div>
   );

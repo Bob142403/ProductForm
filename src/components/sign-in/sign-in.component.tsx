@@ -1,13 +1,10 @@
-import { Button, Dropdown, Form, Input, Typography } from "antd";
-import { LockOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { authApi } from "../../api/auth";
-import { Grid, theme } from "antd";
-
-import { UserOutlined } from "@ant-design/icons";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Dropdown, Form, Input, Typography, Grid, theme } from "antd";
+import { LockOutlined, UserOutlined, GlobalOutlined } from "@ant-design/icons";
+
 import { NavBarContext } from "../../provider/NavBarProvider";
-import { GlobalOutlined } from "@ant-design/icons";
+import { authApi } from "../../api/auth";
 import { language } from "../../lang/lang";
 import { ToolsContext } from "../../provider/ToolsProvider";
 
@@ -16,11 +13,21 @@ const { useBreakpoint } = Grid;
 const { Text, Title, Link } = Typography;
 
 export const SignIn = () => {
-  const { messageApi } = useContext(ToolsContext);
+  // ---------------------------------------------------------------------------
+  // variables
+  // ---------------------------------------------------------------------------
+
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { messageApi } = useContext(ToolsContext);
   const { lang, setLang } = useContext(NavBarContext);
   const { token } = useToken();
   const screens = useBreakpoint();
+  const navigate = useNavigate();
+
+  // ---------------------------------------------------------------------------
+  // function
+  // ---------------------------------------------------------------------------
 
   const onFinish = async (value: {
     username: string;
@@ -28,23 +35,32 @@ export const SignIn = () => {
     remember: string;
   }) => {
     setLoading(true);
+
     try {
       const token = await authApi.login({
         username: value.username,
         password: value.password,
       });
       const res = await token.json();
+
       if (token.status >= 400) {
         messageApi?.open({ type: "error", content: res });
       }
+
       localStorage.setItem("token", res.token);
       localStorage.setItem("user", JSON.stringify(res.user.rows[0]));
+
       navigate("/");
     } catch (err) {
       if (messageApi) messageApi.open({ type: "error", content: `${err}` });
     }
+
     setLoading(false);
   };
+
+  // ---------------------------------------------------------------------------
+  // styles
+  // ---------------------------------------------------------------------------
 
   const styles = {
     container: {
@@ -80,10 +96,13 @@ export const SignIn = () => {
     },
   };
 
-  const navigate = useNavigate();
-
+  // ---------------------------------------------------------------------------
   return (
     <section style={{ ...styles.section, position: "relative" }}>
+      {/* --------------------------------------------------------------------------- */}
+      {/* LANGUAGE SELECT */}
+      {/* --------------------------------------------------------------------------- */}
+
       <div style={{ position: "absolute", right: "10px", top: "10px" }}>
         <Dropdown
           menu={{
@@ -114,6 +133,10 @@ export const SignIn = () => {
       </div>
       <div style={styles.container}>
         <div style={{ ...styles.header, textAlign: "center" }}>
+          {/* --------------------------------------------------------------------------- */}
+          {/* ICON */}
+          {/* --------------------------------------------------------------------------- */}
+
           <svg
             width="25"
             height="24"
@@ -136,8 +159,17 @@ export const SignIn = () => {
             />
           </svg>
 
+          {/* --------------------------------------------------------------------------- */}
+          {/* TITLE */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Title style={styles.title}>{language["signIn"][lang]}</Title>
         </div>
+
+        {/* --------------------------------------------------------------------------- */}
+        {/* SIGN IN FORM */}
+        {/* --------------------------------------------------------------------------- */}
+
         <Form
           name="normal_login"
           initialValues={{
@@ -147,6 +179,9 @@ export const SignIn = () => {
           layout="vertical"
           requiredMark="optional"
         >
+          {/* --------------------------------------------------------------------------- */}
+          {/* USERNAME */}
+          {/* --------------------------------------------------------------------------- */}
           <Form.Item
             name="username"
             rules={[
@@ -158,6 +193,9 @@ export const SignIn = () => {
           >
             <Input prefix={<UserOutlined />} placeholder="Username" />
           </Form.Item>
+          {/* --------------------------------------------------------------------------- */}
+          {/* PASSWORD */}
+          {/* --------------------------------------------------------------------------- */}
           <Form.Item
             name="password"
             rules={[
@@ -173,15 +211,16 @@ export const SignIn = () => {
               placeholder={language["password"][lang]}
             />
           </Form.Item>
-          {/* <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
-            </Form.Item>
-            <a style={{ float: "right" }} href="">
-              Forgot password?
-            </a>
-          </Form.Item> */}
+
+          {/* --------------------------------------------------------------------------- */}
+          {/* ACTIONS */}
+          {/* --------------------------------------------------------------------------- */}
+
           <Form.Item style={{ marginBottom: "0px" }}>
+            {/* --------------------------------------------------------------------------- */}
+            {/* SIGN IN BUTTON */}
+            {/* --------------------------------------------------------------------------- */}
+
             <Button
               block={true}
               type="primary"
@@ -189,7 +228,6 @@ export const SignIn = () => {
               loading={loading}
               disabled={loading}
             >
-              {/* Log in */}
               {language["signIn"][lang]}
             </Button>
             <div
@@ -199,13 +237,17 @@ export const SignIn = () => {
                 marginTop: token.marginLG,
               }}
             >
-              <Text style={styles.text}>{language["dont"][lang]}</Text>{" "}
+              <Text style={styles.text}>{language["dont"][lang]}</Text>
+
+              {/* --------------------------------------------------------------------------- */}
+              {/* SIGN UP LINK */}
+              {/* --------------------------------------------------------------------------- */}
+
               <Link
                 onClick={() => {
                   navigate("/sign-up");
                 }}
               >
-                {/* Sign up now */}
                 {language["signUp"][lang]}
               </Link>
             </div>

@@ -21,10 +21,6 @@ function App() {
       {contextHolder}
       <BrowserRouter basename="/">
         <Routes>
-          {/* <Route
-          path="/"
-          element={<AuthCheck children={<BreakfastGroup />} />}
-        ></Route> */}
           <Route path="/" element={<HomePage />}>
             <Route path="" element={<HomeIntro />} />
             <Route
@@ -39,8 +35,14 @@ function App() {
               path="dinner"
               element={<AuthCheck children={<DinnerGroup />} />}
             />
-            <Route path="finish" element={<FinishPage />} />
-            <Route path="rating" element={<RatingPage />} />
+            <Route
+              path="finish"
+              element={<AuthCheck children={<FinishPage />} />}
+            />
+            <Route
+              path="rating"
+              element={<AuthCheck children={<RatingPage />} />}
+            />
             <Route path="category" element={<CategoryPage />} />
             <Route path="comments" element={<CommentsPage />} />
           </Route>
@@ -49,7 +51,6 @@ function App() {
         </Routes>
       </BrowserRouter>
     </>
-    // <HomePage />
   );
 }
 
